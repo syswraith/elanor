@@ -1,20 +1,13 @@
 import json
 
 def config():
-    configs = {}
+    with open('./assets/themes.json') as f: themes = json.load(f)
 
-    with open('./assets/themes.json', 'r') as themes_file:
-        themes = json.load(themes_file)
+    print('Choose a theme:')
+    for k in sorted(themes, key=int): print(f'{k}: {themes[k][0]}')
 
-    print('Choose a theme: ')
-    for theme in themes.keys():
-        print(f'{theme}: {themes[theme][0]}')
+    choice = input('Your choice: ')
+    if choice in themes:
+        with open('./assets/config.json', 'w') as f:
+            f.write(json.dumps({"theme": themes[choice][1]}))
 
-    theme_choice = input("Your choice: ")
-
-    if theme_choice in themes.keys():
-        configs["theme"] = themes[theme][1]
-
-    with open('./assets/config.json', 'w') as config_file:
-        config_file.write(json.dumps(configs))
-        

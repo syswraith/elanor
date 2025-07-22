@@ -1,6 +1,25 @@
 {
   "1": ["awsm", "https://unpkg.com/awsm.css/dist/awsm.min.css"],
   "2": ["bahunya", "https://cdn.jsdelivr.net/gh/kimeiga/bahunya@css/bahunya-0.1.3.css"],
-  "3": ["sakura", "https://unpkg.com/sakura.css/css/sakura.css"]
+  "3": ["bamboo", "https://unpkg.com/bamboo.css"],
+  "4": ["bootstrap", "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"],
+  "5": ["holiday", "https://cdn.jsdelivr.net/npm/holiday.css"],
+  "6": ["kacit", "https://cdn.jsdelivr.net/gh/Kimeiga/kacit/kacit.min.css"],
+  "7": ["minicss", "https://cdn.jsdelivr.net/gh/Chalarangelo/mini.css@v3.0.1/dist/mini-default.min.css"],
+  "8": ["no-class", "https://davidpaulsson.github.io/no-class/css/no-class.min.css"],
+  "9": ["pico", "https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css"],
+  "10": ["sakura", "https://unpkg.com/sakura.css/css/sakura.css"],
+  "11": ["sakura-vader", "https://unpkg.com/sakura.css/css/sakura-vader.css"],
+  "12": ["simple", "https://cdn.simplecss.org/simple.css"],
+  "13": ["stylize", "https://vasanthv.github.io/stylize.css/stylize.css"],
+  "14": ["tacit", "https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.5.0.min.css"],
+  "15": ["tufte", "https://edwardtufte.github.io/tufte-css/tufte.css"],
+  "16": ["vanillacss", "https://vanillacss.com/vanilla.css"],
+  "17": ["w3c-chocolate", "https://www.w3.org/StyleSheets/Core/Chocolate"],
+  "18": ["w3c-traditional", "https://www.w3.org/StyleSheets/Core/Traditional"],
+  "19": ["water-dark", "https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.css"],
+  "20": ["water-light", "https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.css"],
+  "21": ["writ", "//writ.cmcenroe.me/1.0.4/writ.min.css"],
+  "22": ["yorha", "https://cdn.jsdelivr.net/npm/yorha@1.2.0/dist/yorha.min.css"]
 }
 
