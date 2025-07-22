@@ -2,9 +2,21 @@
 Elanor is a minimalistic static site generator build for the Markdown I use.
 
 
-### Dependencies
-- markdown
-- pygments
+## Installation
+```sh
+# Clone the github repo
+git clone https://github.com/syswraith/elanor
+
+# Make a virtual environment and activate it
+python3 -m venv venv && source ./venv/bin/activate
+
+# Install the required dependencies
+pip install -r requirements.txt
+
+# Run main.py
+python3 main.py
+```
+
 
 ### Themes supported
 - [x] [awsm.css](https://www.cssbed.com/awsm.css/)
@@ -29,4 +41,10 @@ Elanor is a minimalistic static site generator build for the Markdown I use.
 - [x] [water-light](https://www.cssbed.com/water-light)
 - [x] [writ](https://www.cssbed.com/writ)
 - [x] [yorha](https://www.cssbed.com/yorha)
+
+
+### Dependencies
+- markdown
+- pygments
+
 
