@@ -1,10 +1,10 @@
 # elanor
-Elanor is a minimalistic static site generator build around my own custom Markdown implementation.
+Elanor is a minimalistic static site generator build for the Markdown I use.
 
 
 ### Dependencies
 - markdown
-- jinja
+- pygments
 
 ### Themes
 - [x] awsm
