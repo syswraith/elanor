@@ -208,5 +208,3 @@ __marimo__/
 
 # Misc
 assets/config.json
-content/*.md
-generated/*.html

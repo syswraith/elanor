@@ -4,8 +4,9 @@ Elanor is a minimalistic static site generator built for the Markdown I use.
 
 ## Installation
 ```sh
-# Clone the github repo
+# Clone the github repo and `cd` to it
 git clone https://github.com/syswraith/elanor
+cd elanor
 
 # Make a virtual environment and activate it
 python3 -m venv venv && source ./venv/bin/activate
