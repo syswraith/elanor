@@ -5,11 +5,17 @@ from pathlib import Path
 from assets import config as config_module
 
 
+def wikilink_url_builder(label, base, end):
+    if label.endswith('.md'):
+        label = label[:-3] + '.html'
+    else:
+        label = label + '.html'
+    return base + label + end
+
 config_file_path = Path("./assets/config.json")
 
 if config_file_path.is_file(): pass
-else:
-    config_module.config()
+else: config_module.config()
 
 with open(config_file_path, 'r') as config_file:
     config = json.load(config_file)
@@ -27,7 +33,14 @@ for file in os.listdir('./content'):
                     'markdown.extensions.tables',
                     'markdown.extensions.meta',
                     'markdown.extensions.wikilinks'
-                    ]
+                    ],
+                extension_configs={
+                    'markdown.extensions.wikilinks': {
+                        'base_url': '',
+                        'end_url': '',
+                        'build_url': wikilink_url_builder
+                        }
+                    }
                 )
 
         html = f'''<html>
