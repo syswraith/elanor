@@ -24,14 +24,14 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt ghp-import
 
-      - name: Copy icon file
-        run: cp assets/favicon.ico generated/favicon.ico
-
       - name: Generate css
         run: pygmentize -S default -f html > generated/pygments.css
 
       - name: Generate site
         run: python main.py
+
+      - name: Copy icon file
+        run: cp assets/favicon.ico generated/favicon.ico
 
       - name: Deploy to GitHub Pages
         env:

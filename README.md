@@ -1,3 +1,5 @@
+![Elanor icon](https://github.com/syswraith/elanor/blob/main/assets/icon.png)
+
 # elanor
 Elanor is a minimalistic static site generator built for the Markdown I use.
 
