@@ -13,9 +13,6 @@ python3 -m venv venv && source ./venv/bin/activate
 # Install the required dependencies
 pip install -r requirements.txt
 
-# Example file
-echo "# Big heading" > content/index.html
-
 # Run main.py
 python3 main.py
 ```
