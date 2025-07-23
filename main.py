@@ -19,17 +19,26 @@ for file in os.listdir('./content'):
         with open(f"./content/{file}", "r", encoding="utf-8") as input_file:
             text = input_file.read()
 
-        html_body = markdown.markdown(text, extensions=['fenced_code', 'codehilite'])
+        html_body = markdown.markdown(
+                text,
+                extensions=[
+                    'fenced_code',
+                    'codehilite',
+                    'markdown.extensions.tables',
+                    'markdown.extensions.meta',
+                    'markdown.extensions.wikilinks'
+                    ]
+                )
 
         html = f'''<html>
-        <head>
-          <link rel="stylesheet" href="pygments.css" type="text/css">
-          <link rel="stylesheet" href="{config['theme']}" type="text/css">
-        </head>
-        <body>
-        {html_body}
-        </body>
-        </html>'''
+                <head>
+                  <link rel="stylesheet" href="pygments.css" type="text/css">
+                  <link rel="stylesheet" href="{config['theme']}" type="text/css">
+                </head>
+                <body>
+                {html_body}
+                </body>
+                </html>'''
 
         with open(f"./generated/{file[:-3]}.html", "w", encoding="utf-8") as f:
             f.write(html)
