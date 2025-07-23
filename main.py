@@ -47,7 +47,9 @@ for file in os.listdir('./content'):
                 <head>
                   <meta name="viewport" content="width=device-width, initial-scale=1">
                   <link rel="stylesheet" href="pygments.css" type="text/css">
-                  <link rel="stylesheet" href="{config['theme']}" type="text/css">
+                  <link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.1/normalize.css" type="text/css">
+                  <link rel="stylesheet" href="{config['theme']}" type="text/css" media="print" onload="this.media='all'">
+                  <link rel="icon" type="image/x-icon" href="./favicon.ico">
                 </head>
                 <body>
                 {html_body}

@@ -1,3 +1,5 @@
+![Elanor icon](https://github.com/syswraith/elanor/blob/main/assets/icon.png)
+
 # elanor
 Elanor is a minimalistic static site generator built for the Markdown I use.
 
@@ -42,11 +44,6 @@ python3 main.py
 - [x] [water-light](https://www.cssbed.com/water-light)
 - [x] [writ](https://www.cssbed.com/writ)
 - [x] [yorha](https://www.cssbed.com/yorha)
-
-
-### Dependencies
-- markdown
-- pygments
 
 
 Check the source [here](https://github.com/syswraith/elanor)
