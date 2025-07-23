@@ -1,8 +1,8 @@
 import os
 import json
 import markdown
-from assets import config as config_module
 from pathlib import Path
+from assets import config as config_module
 
 
 config_file_path = Path("./assets/config.json")
