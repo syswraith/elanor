@@ -32,6 +32,7 @@ for file in os.listdir('./content'):
 
         html = f'''<html>
                 <head>
+                  <meta name="viewport" content="width=device-width, initial-scale=1">
                   <link rel="stylesheet" href="pygments.css" type="text/css">
                   <link rel="stylesheet" href="{config['theme']}" type="text/css">
                 </head>
