@@ -49,4 +49,4 @@ python3 main.py
 - pygments
 
 
-The source for this website can be found [here](https://github.com/syswraith/elanor/)
+Check the deployed version [here](https://syswraith.github.io/elanor)
