@@ -1,29 +1,46 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="description" content="{{ description }}">
-  <meta name="keywords" content="{{ keywords }}">
-  <meta name="author" content="{{ author }}">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ title }}</title>
-  <style>html{visibility: hidden;opacity:0;}</style>
-  <link rel="stylesheet" href="pygments.css" type="text/css">
-  <link rel="stylesheet" href="{{ theme }}" type="text/css" media="print" onload="this.media='all'">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <script>
-    window.onload = () => { 
-      document.querySelector('html').style.visibility = "visible";
-      document.querySelector('html').style.opacity = 1;
-    };
-  </script>
-  <noscript>
-      This page uses minimal and non-harmful JavaScript to avoid Flash of Unstyled Content. 
-      The source code is available at https://github.com/syswraith/elanor free for anyone to inspect or modify. 
-  </noscript>
-</head>
-<body>
-  {{ content | safe }}
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="{{ description }}">
+        <meta name="keywords" content="{{ keywords }}">
+        <meta name="author" content="{{ author }}">
+
+        <!-- Open Graph / Facebook / Discord -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="{{ title }}">
+        <meta property="og:description" content="{{ description }}">
+        <meta property="og:url" content="https://syswraith.github.io/elanor">
+        <meta property="og:image" content="{{ og_image }}">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="{{ title }}">
+        <meta name="twitter:description" content="{{ description }}">
+        <meta name="twitter:image" content="{{ og_image }}">
+        <meta property="twitter:domain" content="syswraith.github.io">
+        <meta property="twitter:url" content="https://syswraith.github.io/elanor">
+
+
+        <title>{{ title }}</title>
+        <style>html{visibility: hidden;opacity:0;}</style>
+        <link rel="stylesheet" href="pygments.css" type="text/css">
+        <link rel="stylesheet" href="{{ theme }}" type="text/css" media="print" onload="this.media='all'">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <script>
+            window.onload = () => { 
+                document.querySelector('html').style.visibility = "visible";
+                document.querySelector('html').style.opacity = 1;
+            };
+        </script>
+        <noscript>
+            This page uses minimal and non-harmful JavaScript to avoid Flash of Unstyled Content. 
+            The source code is available at https://github.com/syswraith/elanor free for anyone to inspect or modify. 
+        </noscript>
+    </head>
+    <body>
+        {{ content | safe }}
+    </body>
 </html>
 

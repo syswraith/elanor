@@ -56,7 +56,8 @@ for file in os.listdir('./content'):
             title = title,
             author = author,
             description = description,
-            keywords = keywords
+            keywords = keywords,
+            og_image = "https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true"
         )
 
         with open(f"./generated/{file[:-3]}.html", "w", encoding="utf-8") as f:
