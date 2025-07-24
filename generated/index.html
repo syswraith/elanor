@@ -1,11 +1,16 @@
 <html>
             <head>
-              <style>body{visibility:hidden}</style>
+            <style>html{visibility: hidden;opacity:0;}</style>
               <meta name="viewport" content="width=device-width, initial-scale=1">
               <link rel="stylesheet" href="pygments.css" type="text/css">
-              <link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.1/normalize.css" type="text/css">
               <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css" media="print" onload="this.media='all'">
               <link rel="icon" type="image/x-icon" href="favicon.ico">
+              <script>
+                window.onload = () => { 
+                document.querySelector('html').style.visibility = "visible";
+                document.querySelector('html').style.opacity = 1;
+                };
+              </script>
             </head>
             <body>
             <p><img alt="Elanor icon" src="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true" /></p>
@@ -52,6 +57,5 @@ python3<span class="w"> </span>main.py
 <li><a href="https://www.cssbed.com/yorha">yorha</a></li>
 </ul>
 <p>Check the source <a href="https://github.com/syswraith/elanor">here</a></p>
-            <script>window.addEventListener("DOMContentLoaded",()=>{document.body.style.visibility="visible"})</script>
             </body>
             </html>

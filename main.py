@@ -25,35 +25,39 @@ for file in os.listdir('./content'):
             text = input_file.read()
 
         html_body = markdown.markdown(
-            text,
-            extensions=[
-                'fenced_code',
-                'codehilite',
-                'markdown.extensions.tables',
-                'markdown.extensions.meta',
-                'markdown.extensions.wikilinks'
-            ],
-            extension_configs={
-                'markdown.extensions.wikilinks': {
-                    'base_url': '',
-                    'end_url': '',
-                    'build_url': wikilink_url_builder
-                }
-            }
-        )
+                text,
+                extensions=[
+                    'fenced_code',
+                    'codehilite',
+                    'markdown.extensions.tables',
+                    'markdown.extensions.meta',
+                    'markdown.extensions.wikilinks'
+                    ],
+                extension_configs={
+                    'markdown.extensions.wikilinks': {
+                        'base_url': '',
+                        'end_url': '',
+                        'build_url': wikilink_url_builder
+                        }
+                    }
+                )
 
         html = f'''<html>
             <head>
-              <style>body{{visibility:hidden}}</style>
+            <style>html{{visibility: hidden;opacity:0;}}</style>
               <meta name="viewport" content="width=device-width, initial-scale=1">
               <link rel="stylesheet" href="pygments.css" type="text/css">
-              <link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.1/normalize.css" type="text/css">
               <link rel="stylesheet" href="{config['theme']}" type="text/css" media="print" onload="this.media='all'">
               <link rel="icon" type="image/x-icon" href="favicon.ico">
+              <script>
+                window.onload = () => {{ 
+                document.querySelector('html').style.visibility = "visible";
+                document.querySelector('html').style.opacity = 1;
+                }};
+              </script>
             </head>
             <body>
             {html_body}
-            <script>window.addEventListener("DOMContentLoaded",()=>{{document.body.style.visibility="visible"}})</script>
             </body>
             </html>'''
 
