@@ -1,3 +1,11 @@
+---
+title: Index
+description: Documentation and demo for Elanor
+author: syswraith
+keywords: elanor,syswraith,github,static site generator,python,python3,classless,css,minimal
+---
+
+
 ![Elanor icon](https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true)
 # elanor
 Elanor is a minimalistic static site generator built for the Markdown I use.

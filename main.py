@@ -25,8 +25,7 @@ for file in os.listdir('./content'):
         with open(f"./content/{file}", "r", encoding="utf-8") as input_file:
             text = input_file.read()
 
-        html_body = markdown.markdown(
-            text,
+        md = markdown.Markdown(
             extensions=[
                 'fenced_code',
                 'codehilite',
@@ -43,7 +42,22 @@ for file in os.listdir('./content'):
             }
         )
 
-        rendered = template.render(theme=config['theme'], content=html_body)
+        html_body = md.convert(text)
+        meta = md.Meta
+
+        title = meta.get('title', [''])[0]
+        author = meta.get('author', [''])[0]
+        keywords = meta.get('keywords', [''])[0]
+        description = meta.get('description', [''])[0]
+
+        rendered = template.render(
+            theme = config['theme'],
+            content = html_body,
+            title = title,
+            author = author,
+            description = description,
+            keywords = keywords
+        )
 
         with open(f"./generated/{file[:-3]}.html", "w", encoding="utf-8") as f:
             f.write(rendered)

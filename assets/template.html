@@ -2,8 +2,12 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <style>html{visibility: hidden;opacity:0;}</style>
+  <meta name="description" content="{{ description }}">
+  <meta name="keywords" content="{{ keywords }}">
+  <meta name="author" content="{{ author }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }}</title>
+  <style>html{visibility: hidden;opacity:0;}</style>
   <link rel="stylesheet" href="pygments.css" type="text/css">
   <link rel="stylesheet" href="{{ theme }}" type="text/css" media="print" onload="this.media='all'">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -13,6 +17,10 @@
       document.querySelector('html').style.opacity = 1;
     };
   </script>
+  <noscript>
+      This page uses minimal and non-harmful JavaScript to avoid Flash of Unstyled Content. 
+      The source code is available at https://github.com/syswraith/elanor free for anyone to inspect or modify. 
+  </noscript>
 </head>
 <body>
   {{ content | safe }}
