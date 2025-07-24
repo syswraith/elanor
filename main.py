@@ -1,8 +1,7 @@
-import os
-import json
-import markdown
+import os, json, markdown
 from pathlib import Path
 from assets import config as config_module
+from jinja2 import Environment, FileSystemLoader
 
 def wikilink_url_builder(label, base, end):
     if label.endswith('.md'):
@@ -12,12 +11,14 @@ def wikilink_url_builder(label, base, end):
     return base + label + end
 
 config_file_path = Path("./assets/config.json")
-
-if config_file_path.is_file(): pass
-else: config_module.config()
+if not config_file_path.is_file():
+    config_module.config()
 
 with open(config_file_path, 'r') as config_file:
     config = json.load(config_file)
+
+env = Environment(loader=FileSystemLoader("assets"))
+template = env.get_template("template.html")
 
 for file in os.listdir('./content'):
     if file.endswith(".md"):
@@ -25,42 +26,25 @@ for file in os.listdir('./content'):
             text = input_file.read()
 
         html_body = markdown.markdown(
-                text,
-                extensions=[
-                    'fenced_code',
-                    'codehilite',
-                    'markdown.extensions.tables',
-                    'markdown.extensions.meta',
-                    'markdown.extensions.wikilinks'
-                    ],
-                extension_configs={
-                    'markdown.extensions.wikilinks': {
-                        'base_url': '',
-                        'end_url': '',
-                        'build_url': wikilink_url_builder
-                        }
-                    }
-                )
+            text,
+            extensions=[
+                'fenced_code',
+                'codehilite',
+                'markdown.extensions.tables',
+                'markdown.extensions.meta',
+                'markdown.extensions.wikilinks'
+            ],
+            extension_configs={
+                'markdown.extensions.wikilinks': {
+                    'base_url': '',
+                    'end_url': '',
+                    'build_url': wikilink_url_builder
+                }
+            }
+        )
 
-        html = f'''<html>
-            <head>
-            <style>html{{visibility: hidden;opacity:0;}}</style>
-              <meta name="viewport" content="width=device-width, initial-scale=1">
-              <link rel="stylesheet" href="pygments.css" type="text/css">
-              <link rel="stylesheet" href="{config['theme']}" type="text/css" media="print" onload="this.media='all'">
-              <link rel="icon" type="image/x-icon" href="favicon.ico">
-              <script>
-                window.onload = () => {{ 
-                document.querySelector('html').style.visibility = "visible";
-                document.querySelector('html').style.opacity = 1;
-                }};
-              </script>
-            </head>
-            <body>
-            {html_body}
-            </body>
-            </html>'''
+        rendered = template.render(theme=config['theme'], content=html_body)
 
         with open(f"./generated/{file[:-3]}.html", "w", encoding="utf-8") as f:
-            f.write(html)
+            f.write(rendered)
 

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>html{visibility: hidden;opacity:0;}</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="pygments.css" type="text/css">
+  <link rel="stylesheet" href="{{ theme }}" type="text/css" media="print" onload="this.media='all'">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script>
+    window.onload = () => { 
+      document.querySelector('html').style.visibility = "visible";
+      document.querySelector('html').style.opacity = 1;
+    };
+  </script>
+</head>
+<body>
+  {{ content | safe }}
+</body>
+</html>
+
