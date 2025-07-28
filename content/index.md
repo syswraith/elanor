@@ -19,3 +19,4 @@ Currently, Elanor has support for the following:
 - Wikilinks
 - KaTeX
 
+A great thanks to all the maintainers and contributors to the [[./libraries used.md]] in this project.
