@@ -10,14 +10,10 @@ keywords: elanor,syswraith,github,static site generator,python,python3,classless
 # elanor
 Elanor is a minimalistic static site generator built for the Markdown I use.
 
+Here's what you need to get started
+
 - The installation instructions are available here: [[./installation.md]].
 - You can choose your themes here: [[./themes.md]].
-
-Currently, Elanor has support for the following:
-
-- Basic markdown formatting (bold, italic, tables, etc)
-- Syntax highlighting for codeblocks
-- Wikilinks
-- KaTeX
+- Basic markdown formatting, along with tables, wikilinks, syntax highlighting and KaTeX are available.
 
 A great thanks to all the maintainers and contributors to the [[./libraries used.md]] in this project.
