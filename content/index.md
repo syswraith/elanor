@@ -10,5 +10,5 @@ keywords: elanor,syswraith,github,static site generator,python,python3,classless
 # elanor
 Elanor is a minimalistic static site generator built for the Markdown I use.
 
-[[installation]]
-[[themes]]
+The installation instructions are available here: [[./installation.md]].
+You can choose your themes here: [[./themes.md]].

@@ -1,12 +1,18 @@
 ---
-title: Elanor
+title: Themes
 description: Elanor is a minimalistic static site generator for Markdown files. Written in Python.
 author: syswraith
-keywords: elanor,syswraith,github,static site generator,python,python3,classless,css,minimal
+keywords: elanor,syswraith,github,static site generator,python,python3,classless,css,minimal,themes
 ---
 
 ![Elanor icon](https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true)
 
+
+The selected theme is stored in `assets/config.json`. To reselect the theme, delete this file and run `main.py` again.
+
+Elanor currently supports the 22 *classless* themes listed below. To make your own theme, take a look at their structure. Links to these themes are stored in `assets/themes.json`.
+
+To add more themes
 
 # Themes supported
 - [awsm.css](https://www.cssbed.com/awsm.css/)

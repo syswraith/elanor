@@ -1,15 +1,21 @@
-import os, json, markdown
+import os, json, markdown, re
 from pathlib import Path
 from assets import config as config_module
 from jinja2 import Environment, FileSystemLoader
 from markdown_katex import KatexExtension
 
-def wikilink_url_builder(label, base, end):
-    if label.endswith('.md'):
-        label = label[:-3] + '.html'
-    else:
-        label = label + '.html'
-    return base + label + end
+def wikilink_replacer(text):
+    def replacer(match):
+        target = match.group(1)
+        href = target + ".html"
+        display = Path(target).stem
+        return f'<a href="{href}">{display}</a>'
+    return re.sub(r'\[\[(.*?)\]\]', replacer, text)
+
+def normalize_wikilinks(text):
+    text = re.sub(r'\[\[\./(.*?)\.md\]\]', r'[[\1]]', text)
+    text = re.sub(r'\[\[(.*?)\.md\]\]', r'[[\1]]', text)
+    return text
 
 config_file_path = Path("./assets/config.json")
 if not config_file_path.is_file():
@@ -21,47 +27,48 @@ with open(config_file_path, 'r') as config_file:
 env = Environment(loader=FileSystemLoader("assets"))
 template = env.get_template("template.html")
 
-for file in os.listdir('./content'):
-    if file.endswith(".md"):
-        with open(f"./content/{file}", "r", encoding="utf-8") as input_file:
-            text = input_file.read()
+for root, _, files in os.walk('./content'):
+    for file in files:
+        if file.endswith(".md"):
+            abs_path = Path(root) / file
+            rel_path = abs_path.relative_to('./content')
+            out_path = Path('./generated') / rel_path.with_suffix('.html')
 
-        md = markdown.Markdown(
-            extensions=[
-                'fenced_code',
-                'codehilite',
-                'markdown.extensions.tables',
-                'markdown.extensions.meta',
-                'markdown.extensions.wikilinks',
-                KatexExtension()
-            ],
-            extension_configs={
-                'markdown.extensions.wikilinks': {
-                    'base_url': '',
-                    'end_url': '',
-                    'build_url': wikilink_url_builder
-                }
-            }
-        )
+            with open(abs_path, "r", encoding="utf-8") as input_file:
+                text = input_file.read()
 
-        html_body = md.convert(text)
-        meta = md.Meta
+            text = normalize_wikilinks(text)
+            text = wikilink_replacer(text)
 
-        title = meta.get('title', [''])[0]
-        author = meta.get('author', [''])[0]
-        keywords = meta.get('keywords', [''])[0]
-        description = meta.get('description', [''])[0]
+            md = markdown.Markdown(
+                extensions=[
+                    'fenced_code',
+                    'codehilite',
+                    'markdown.extensions.tables',
+                    'markdown.extensions.meta',
+                    KatexExtension()
+                ]
+            )
 
-        rendered = template.render(
-            theme = config['theme'],
-            content = html_body,
-            title = title,
-            author = author,
-            description = description,
-            keywords = keywords,
-            og_image = "https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true"
-        )
+            html_body = md.convert(text)
+            meta = getattr(md, 'Meta', {})
 
-        with open(f"./generated/{file[:-3]}.html", "w", encoding="utf-8") as f:
-            f.write(rendered)
+            title = meta.get('title', [''])[0]
+            author = meta.get('author', [''])[0]
+            keywords = meta.get('keywords', [''])[0]
+            description = meta.get('description', [''])[0]
+
+            rendered = template.render(
+                theme=config['theme'],
+                content=html_body,
+                title=title,
+                author=author,
+                description=description,
+                keywords=keywords,
+                og_image="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true"
+            )
+
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(out_path, "w", encoding="utf-8") as f:
+                f.write(rendered)
 

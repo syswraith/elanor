@@ -2,7 +2,7 @@
 title: Elanor
 description: Elanor is a minimalistic static site generator for Markdown files. Written in Python.
 author: syswraith
-keywords: elanor,syswraith,github,static site generator,python,python3,classless,css,minimal
+keywords: elanor,syswraith,github,static site generator,python,python3,classless,css,minimal,installation
 ---
 
 ![Elanor icon](https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true)
