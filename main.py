@@ -2,6 +2,7 @@ import os, json, markdown
 from pathlib import Path
 from assets import config as config_module
 from jinja2 import Environment, FileSystemLoader
+from markdown_katex import KatexExtension
 
 def wikilink_url_builder(label, base, end):
     if label.endswith('.md'):
@@ -31,7 +32,8 @@ for file in os.listdir('./content'):
                 'codehilite',
                 'markdown.extensions.tables',
                 'markdown.extensions.meta',
-                'markdown.extensions.wikilinks'
+                'markdown.extensions.wikilinks',
+                KatexExtension()
             ],
             extension_configs={
                 'markdown.extensions.wikilinks': {
