@@ -58,24 +58,17 @@
         <p><img alt="Elanor icon" src="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true" /></p>
 <h1>Installation</h1>
 <ol>
-<li>Clone the github repo and <code>cd</code> to it</li>
+<li>Clone the github repo and <code>cd</code> to it
+    <code>sh
+    git clone https://github.com/syswraith/elanor
+    cd elanor</code></li>
+<li>Make a virtual environment and activate it
+    <code>sh
+    python3 -m venv venv &amp;&amp; source ./venv/bin/activate</code></li>
+<li>Install the required dependencies
+    <code>sh
+    pip install -r requirements.txt</code></li>
 </ol>
-<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/syswraith/elanor
-<span class="nb">cd</span><span class="w"> </span>elanor
-</code></pre></div>
-
-<ol>
-<li>Make a virtual environment and activate it</li>
-</ol>
-<div class="codehilite"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>./venv/bin/activate
-</code></pre></div>
-
-<ol>
-<li>Install the required dependencies</li>
-</ol>
-<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
-</code></pre></div>
-
 <h1>Setup</h1>
 <p>Your markdown files go inside the <code>content</code> directory. You may use nested directories to store them. 
 Also note that any wikilinks or image links that you include should be <strong>relative</strong> to the current directory.</p>

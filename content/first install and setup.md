@@ -11,20 +11,18 @@ keywords: elanor,syswraith,github,static site generator,python,python3,classless
 # Installation
 
 1. Clone the github repo and `cd` to it
-```sh
-git clone https://github.com/syswraith/elanor
-cd elanor
-```
-
+    ```sh
+    git clone https://github.com/syswraith/elanor
+    cd elanor
+    ```
 2. Make a virtual environment and activate it
-```sh
-python3 -m venv venv && source ./venv/bin/activate
-```
-
+    ```sh
+    python3 -m venv venv && source ./venv/bin/activate
+    ```
 3. Install the required dependencies
-```sh
-pip install -r requirements.txt
-```
+    ```sh
+    pip install -r requirements.txt
+    ```
 
 
 # Setup
