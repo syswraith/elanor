@@ -14,6 +14,7 @@ Elanor is a minimalistic static site generator built for the Markdown I use.
 - You can choose your themes here: [[./themes.md]].
 
 Currently, Elanor has support for the following:
+
 - Basic markdown formatting (bold, italic, tables, etc)
 - Syntax highlighting for codeblocks
 - Wikilinks
