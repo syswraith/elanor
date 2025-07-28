@@ -1,24 +1,9 @@
 ![Elanor icon](https://github.com/syswraith/elanor/blob/main/assets/icon.png)
 
-# elanor
-Elanor is a minimalistic static site generator built for the Markdown I use.
-
-
-## Installation
-```sh
-# Clone the github repo and `cd` to it
-git clone https://github.com/syswraith/elanor
-cd elanor
-
-# Make a virtual environment and activate it
-python3 -m venv venv && source ./venv/bin/activate
-
-# Install the required dependencies
-pip install -r requirements.txt
-
-# Run main.py
-python3 main.py
 ```
+Elanor is a minimalistic static site generator built for the Markdown I use. 
+Written in Python, it was conceived as a static site generator that uses classless CSS to style content.
+For more documentation and demo, check the deployed version at https://syswraith.github.io/elanor
 
-
-For more documentation and demo, check the deployed version [here](https://syswraith.github.io/elanor)
+Elanor was named after Elanor Gardner- the first daughter of Samwise Gamgee, to whom he gave the Red Book of Westmarch before he sailed away to Valinor.
+```
