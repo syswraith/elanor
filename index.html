@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Elanor is a minimalistic static site generator for Markdown files. Written in Python.">
+        <meta name="keywords" content="elanor,syswraith,github,static site generator,python,python3,classless,css,minimal">
+        <meta name="author" content="syswraith">
+
+        <!-- Open Graph / Facebook / Discord -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Elanor">
+        <meta property="og:description" content="Elanor is a minimalistic static site generator for Markdown files. Written in Python.">
+        <meta property="og:url" content="https://syswraith.github.io/elanor">
+        <meta property="og:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Elanor">
+        <meta name="twitter:description" content="Elanor is a minimalistic static site generator for Markdown files. Written in Python.">
+        <meta name="twitter:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+        <meta property="twitter:domain" content="syswraith.github.io">
+        <meta property="twitter:url" content="https://syswraith.github.io/elanor">
+
+
+        <title>Elanor</title>
+        <style>html{visibility: hidden;opacity:0;}</style>
+        <link rel="stylesheet" href="pygments.css" type="text/css">
+        <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css" media="print" onload="this.media='all'">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <script>
+            window.onload = () => { 
+                document.querySelector('html').style.visibility = "visible";
+                document.querySelector('html').style.opacity = 1;
+            };
+        </script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "\\(", right: "\\)", display: false}
+                    ]
+                });
+            });
+        </script>
+
+        <noscript>
+            This page uses minimal and non-harmful JavaScript to avoid Flash of Unstyled Content. 
+            The source code is available at https://github.com/syswraith/elanor free for anyone to inspect or modify. 
+        </noscript>
+    </head>
+    <body>
+        <p><img alt="Elanor icon" src="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true" /></p>
+<h1>elanor</h1>
+<p>Elanor is a minimalistic static site generator built for the Markdown I use.</p>
+<p>Here's what you need to get started</p>
+<ul>
+<li>The installation and setup instructions are available here: <a href="first install and setup.html">first install and setup</a></li>
+<li>You can choose your themes here: <a href="themes.html">themes</a></li>
+</ul>
+<p>Elanor currently supports the following:</p>
+<ul>
+<li>Basic markdown formatting</li>
+<li>Syntax highlighting</li>
+<li>KaTeX rendering</li>
+<li>Frontmatter parsing</li>
+</ul>
+<p>A great thanks to all the maintainers and contributors to the <a href="libraries used.html">libraries used</a> in this project.</p>
+    </body>
+</html>
