@@ -1,4 +1,4 @@
-import os, json, markdown, re
+import os, json, markdown, re, shutil
 from pathlib import Path
 from assets import config as config_module
 from jinja2 import Environment, FileSystemLoader
@@ -71,4 +71,14 @@ for root, _, files in os.walk('./content'):
             out_path.parent.mkdir(parents=True, exist_ok=True)
             with open(out_path, "w", encoding="utf-8") as f:
                 f.write(rendered)
+
+for root, _, files in os.walk('./content'):
+    for file in files:
+        if file.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp')):
+            src_path = Path(root) / file
+            rel_path = src_path.relative_to('./content')
+            dest_path = Path('./generated') / rel_path
+            dest_path.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src_path, dest_path)
+
 
