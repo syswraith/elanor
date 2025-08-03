@@ -24,7 +24,10 @@ Install the required dependencies
 ```sh
 pip install -r requirements.txt
 ```
-
+Install your preferred syntax highlighting theme
+```sh
+pygmentize -S default -f html -a .codehilite > ./generated/pygments.css
+```
 
 # Setup
 

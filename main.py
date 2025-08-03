@@ -17,6 +17,8 @@ def normalize_wikilinks(text):
     text = re.sub(r'\[\[(.*?)\.md\]\]', r'[[\1]]', text)
     return text
 
+# Load the config file
+# If it doesn't exist, create it
 config_file_path = Path("./assets/config.json")
 if not config_file_path.is_file():
     config_module.config()
@@ -24,9 +26,13 @@ if not config_file_path.is_file():
 with open(config_file_path, 'r') as config_file:
     config = json.load(config_file)
 
+# Load jinja2 template
 env = Environment(loader=FileSystemLoader("assets"))
 template = env.get_template("template.html")
 
+# Walk through the directory
+# Generate corresponding directory structure
+# Generate html
 for root, _, files in os.walk('./content'):
     for file in files:
         if file.endswith(".md"):
@@ -72,6 +78,7 @@ for root, _, files in os.walk('./content'):
             with open(out_path, "w", encoding="utf-8") as f:
                 f.write(rendered)
 
+# Walk through it again and find image content
 for root, _, files in os.walk('./content'):
     for file in files:
         if file.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp')):
