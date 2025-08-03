@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Elanor is a minimalistic static site generator for Markdown files. Written in Python.">
+        <meta name="keywords" content="elanor,syswraith,github,static site generator,python,python3,classless,css,minimal,installation,setup">
+        <meta name="author" content="syswraith">
+
+        <!-- Open Graph / Facebook / Discord -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Elanor">
+        <meta property="og:description" content="Elanor is a minimalistic static site generator for Markdown files. Written in Python.">
+        <meta property="og:url" content="https://syswraith.github.io/elanor">
+        <meta property="og:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Elanor">
+        <meta name="twitter:description" content="Elanor is a minimalistic static site generator for Markdown files. Written in Python.">
+        <meta name="twitter:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+        <meta property="twitter:domain" content="syswraith.github.io">
+        <meta property="twitter:url" content="https://syswraith.github.io/elanor">
+
+
+        <title>Elanor</title>
+        <style>html{visibility: hidden;opacity:0;}</style>
+        <link rel="stylesheet" href="pygments.css" type="text/css">
+        <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css" media="print" onload="this.media='all'">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <script>
+            window.onload = () => { 
+                document.querySelector('html').style.visibility = "visible";
+                document.querySelector('html').style.opacity = 1;
+            };
+        </script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "\\(", right: "\\)", display: false}
+                    ]
+                });
+            });
+        </script>
+
+        <noscript>
+            This page uses minimal and non-harmful JavaScript to avoid Flash of Unstyled Content. 
+            The source code is available at https://github.com/syswraith/elanor free for anyone to inspect or modify. 
+        </noscript>
+    </head>
+    <body>
+        <p><img alt="Elanor icon" src="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true" /></p>
+<h1>Installation</h1>
+<p>Clone the github repo and <code>cd</code> to it</p>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/syswraith/elanor
+<span class="nb">cd</span><span class="w"> </span>elanor
+</code></pre></div>
+
+<p>Make a virtual environment and activate it</p>
+<div class="codehilite"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>./venv/bin/activate
+</code></pre></div>
+
+<p>Install the required dependencies</p>
+<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</code></pre></div>
+
+<p>Install your preferred syntax highlighting theme</p>
+<div class="codehilite"><pre><span></span><code>pygmentize<span class="w"> </span>-S<span class="w"> </span>default<span class="w"> </span>-f<span class="w"> </span>html<span class="w"> </span>-a<span class="w"> </span>.codehilite<span class="w"> </span>&gt;<span class="w"> </span>./generated/pygments.css
+</code></pre></div>
+
+<h1>Setup</h1>
+<p>Your markdown files go inside the <code>content</code> directory. You may use nested directories to store them. 
+Also note that any wikilinks or image links that you include should be <strong>relative</strong> to the current directory.</p>
+<p>Once you're done, run <code>python3 main.py</code>. This should generate all the relevent HTML file structure in the <code>generated</code> directory.</p>
+    </body>
+</html>
