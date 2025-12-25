@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Elanor is a minimalistic static site generator for Markdown files. Written in Python.">
+        <meta name="keywords" content="elanor,syswraith,github,static site generator,python,python3,classless,css,minimal,themes">
+        <meta name="author" content="syswraith">
+
+        <!-- Open Graph / Facebook / Discord -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Themes">
+        <meta property="og:description" content="Elanor is a minimalistic static site generator for Markdown files. Written in Python.">
+        <meta property="og:url" content="https://syswraith.github.io/elanor">
+        <meta property="og:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Themes">
+        <meta name="twitter:description" content="Elanor is a minimalistic static site generator for Markdown files. Written in Python.">
+        <meta name="twitter:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+        <meta property="twitter:domain" content="syswraith.github.io">
+        <meta property="twitter:url" content="https://syswraith.github.io/elanor">
+
+
+        <title>Themes</title>
+        <style>html{visibility: hidden;opacity:0;}</style>
+        <link rel="stylesheet" href="pygments.css" type="text/css">
+        <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css" media="print" onload="this.media='all'">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <script>
+            window.onload = () => { 
+                document.querySelector('html').style.visibility = "visible";
+                document.querySelector('html').style.opacity = 1;
+            };
+        </script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "\\(", right: "\\)", display: false}
+                    ]
+                });
+            });
+        </script>
+
+        <noscript>
+            This page uses minimal and non-harmful JavaScript to avoid Flash of Unstyled Content. 
+            The source code is available at https://github.com/syswraith/elanor free for anyone to inspect or modify. 
+        </noscript>
+    </head>
+    <body>
+        <p><img alt="Elanor icon" src="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true" /></p>
+<p>The selected theme is stored in <code>assets/config.json</code>. To reselect the theme, delete this file and run <code>main.py</code> again.</p>
+<p>Elanor currently supports the 22 <em>classless</em> themes listed below. To make your own theme, take a look at their structure. Links to these themes are stored in <code>assets/themes.json</code>.</p>
+<p>To add more themes</p>
+<h1>Themes supported</h1>
+<ul>
+<li><a href="https://www.cssbed.com/awsm.css/">awsm.css</a></li>
+<li><a href="https://www.cssbed.com/bahunya">bahunya</a></li>
+<li><a href="https://www.cssbed.com/bamboo">bamboo</a></li>
+<li><a href="https://www.cssbed.com/bootstrap">bootstrap</a></li>
+<li><a href="https://www.cssbed.com/holiday">holiday</a></li>
+<li><a href="https://www.cssbed.com/kacit">kacit</a></li>
+<li><a href="https://www.cssbed.com/minicss">minicss</a></li>
+<li><a href="https://www.cssbed.com/no-class">no-class</a></li>
+<li><a href="https://www.cssbed.com/pico">pico</a></li>
+<li><a href="https://www.cssbed.com/sakura">sakura</a></li>
+<li><a href="https://www.cssbed.com/sakura-vader">sakura-vader</a></li>
+<li><a href="https://www.cssbed.com/simple">simple</a></li>
+<li><a href="https://www.cssbed.com/stylize">stylize</a></li>
+<li><a href="https://www.cssbed.com/tacit">tacit</a></li>
+<li><a href="https://www.cssbed.com/tufte">tufte</a></li>
+<li><a href="https://www.cssbed.com/vanillacss">vanillacss</a></li>
+<li><a href="https://www.cssbed.com/w3c-chocolate">w3c-chocolate</a></li>
+<li><a href="https://www.cssbed.com/w3c-traditional">w3c-traditional</a></li>
+<li><a href="https://www.cssbed.com/water-dark">water-dark</a></li>
+<li><a href="https://www.cssbed.com/water-light">water-light</a></li>
+<li><a href="https://www.cssbed.com/writ">writ</a></li>
+<li><a href="https://www.cssbed.com/yorha">yorha</a></li>
+</ul>
+    </body>
+</html>
