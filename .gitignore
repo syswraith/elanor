@@ -206,3 +206,6 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
+# Elanor build state, tracks generated/ for pruning stale pages
+.elanor-manifest
+

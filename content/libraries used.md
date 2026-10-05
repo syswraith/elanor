@@ -1,4 +1,4 @@
-Elanor currentlu depends on
+Elanor currently depends on
 
 - [Jinja2](https://jinja.palletsprojects.com/en/stable/)
 - [Pygments](https://pygments.org/)

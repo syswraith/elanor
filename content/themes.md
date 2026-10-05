@@ -10,7 +10,7 @@ keywords: elanor,syswraith,github,static site generator,python,python3,classless
 
 The selected theme is stored in `assets/config.json`. To reselect the theme, delete this file and run `main.py` again.
 
-Elanor currently supports the 22 *classless* themes listed below. To make your own theme, take a look at their structure. Links to these themes are stored in `assets/themes.json`.
+Elanor currently supports the 20 *classless* themes listed below. To make your own theme, take a look at their structure. Links to these themes are stored in `assets/themes.json`.
 
 To add more themes
 
@@ -27,10 +27,8 @@ To add more themes
 - [sakura](https://www.cssbed.com/sakura)
 - [sakura-vader](https://www.cssbed.com/sakura-vader)
 - [simple](https://www.cssbed.com/simple)
-- [stylize](https://www.cssbed.com/stylize)
 - [tacit](https://www.cssbed.com/tacit)
 - [tufte](https://www.cssbed.com/tufte)
-- [vanillacss](https://www.cssbed.com/vanillacss)
 - [w3c-chocolate](https://www.cssbed.com/w3c-chocolate)
 - [w3c-traditional](https://www.cssbed.com/w3c-traditional)
 - [water-dark](https://www.cssbed.com/water-dark)

@@ -4,5 +4,7 @@ markdown-katex==202406.1035
 MarkupSafe==3.0.2
 Pygments==2.19.2
 python-dateutil==2.9.0.post0
+python-frontmatter==1.3.0
+PyYAML==6.0.3
 setuptools==80.9.0
 six==1.17.0

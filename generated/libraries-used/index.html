@@ -1,38 +1,34 @@
 <!DOCTYPE html>
-<html lang="{{ lang }}">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="{{ description }}">
-        <meta name="keywords" content="{{ keywords }}">
-        <meta name="author" content="{{ author }}">
-        {%- if canonical %}
-        <link rel="canonical" href="{{ canonical }}">
-        {%- endif %}
+        <meta name="description" content="Elanor currently depends on">
+        <meta name="keywords" content="">
+        <meta name="author" content="">
+        <link rel="canonical" href="https://syswraith.github.io/elanor/libraries-used/">
 
         <!-- Open Graph / Facebook / Discord -->
         <meta property="og:type" content="website">
-        <meta property="og:title" content="{{ title }}">
-        <meta property="og:description" content="{{ description }}">
-        {%- if canonical %}
-        <meta property="og:url" content="{{ canonical }}">
-        {%- endif %}
-        <meta property="og:image" content="{{ og_image }}">
+        <meta property="og:title" content="libraries used">
+        <meta property="og:description" content="Elanor currently depends on">
+        <meta property="og:url" content="https://syswraith.github.io/elanor/libraries-used/">
+        <meta property="og:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
 
         <!-- Twitter -->
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="{{ title }}">
-        <meta name="twitter:description" content="{{ description }}">
-        <meta name="twitter:image" content="{{ og_image }}">
+        <meta name="twitter:title" content="libraries used">
+        <meta name="twitter:description" content="Elanor currently depends on">
+        <meta name="twitter:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
 
-        <title>{{ title }}</title>
+        <title>libraries used</title>
 
         <!-- Hide until the theme is applied, then reveal. The noscript block
              below is what keeps the page visible when JS is unavailable. -->
         <style>html{visibility: hidden;opacity:0;}</style>
-        <link rel="stylesheet" href="{{ prefix }}pygments.css" type="text/css">
-        <link rel="stylesheet" href="{{ theme }}" type="text/css" media="print" onload="this.media='all'">
-        <link rel="icon" type="image/x-icon" href="{{ prefix }}favicon.ico">
+        <link rel="stylesheet" href="../pygments.css" type="text/css">
+        <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css" media="print" onload="this.media='all'">
+        <link rel="icon" type="image/x-icon" href="../favicon.ico">
         <script>
             (function () {
                 function reveal() {
@@ -47,9 +43,9 @@
             })();
         </script>
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@{{ katex_version }}/dist/katex.min.css">
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@{{ katex_version }}/dist/katex.min.js"></script>
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@{{ katex_version }}/dist/contrib/auto-render.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
         <!-- markdown-katex has insert_fonts_css disabled, so this rule has to
              live here instead of in the generated stylesheet. -->
         <style type="text/css">
@@ -84,6 +80,12 @@
         </noscript>
     </head>
     <body>
-        {{ content | safe }}
+        <p>Elanor currently depends on</p>
+<ul>
+<li><a href="https://jinja.palletsprojects.com/en/stable/">Jinja2</a></li>
+<li><a href="https://pygments.org/">Pygments</a></li>
+<li><a href="https://python-markdown.github.io/">Markdown</a></li>
+<li><a href="https://github.com/mbarkhau/markdown-katex/">Markdown-KaTeX</a></li>
+</ul>
     </body>
 </html>

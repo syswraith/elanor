@@ -1,1 +1,5 @@
-{"theme": "https://unpkg.com/sakura.css/css/sakura.css"}
+{
+  "theme": "https://unpkg.com/sakura.css/css/sakura.css",
+  "site_url": "https://syswraith.github.io/elanor",
+  "og_image": "https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true"
+}
