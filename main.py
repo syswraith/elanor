@@ -6,7 +6,7 @@ import shutil
 import sys
 from html import unescape
 from pathlib import Path, PurePosixPath
-from urllib.parse import quote, unquote
+from urllib.parse import parse_qs, quote, unquote, urlparse
 from xml.etree import ElementTree
 
 import frontmatter
@@ -33,6 +33,21 @@ KATEX_VERSION = '0.16.8'
 MARKDOWN_SUFFIXES = ('.md', '.markdown')
 WIKILINK_PATTERN = r'\[\[([^\[\]\n]+)\]\]'
 TASK_PATTERN = r'\[([ xX])\][ \t]+'
+# Link text that opts a paragraph into the embed treatment.
+EMBED_TRIGGER = 'embed'
+# Embeds are built from an allowlist, never from fetched markup, so a video id
+# only ever reaches an iframe src if it matches this exactly.
+VIDEO_ID_PATTERN = re.compile(r'^[A-Za-z0-9_-]{6,20}$')
+YOUTUBE_HOSTS = (
+    'youtube.com',
+    'www.youtube.com',
+    'm.youtube.com',
+    'music.youtube.com',
+)
+# Paths that carry the video id as a path segment, e.g. /shorts/ID.
+YOUTUBE_PATH_PREFIXES = ('/embed/', '/v/', '/shorts/')
+
+
 class LinkElement(ElementTree.Element):
     """An <a> whose href is already relative to the rendered page.
 
@@ -485,6 +500,124 @@ class TaskProcessor(InlineProcessor):
         return el, m.start(0), m.end(0)
 
 
+def video_id(url):
+    """The video id of a supported provider URL, or None.
+
+    Only YouTube is supported. Nothing is fetched: the id is read out of the URL
+    so builds stay offline and deterministic. Returning None for anything
+    unrecognised is what lets an unknown [embed] target fall back to a plain
+    link.
+    """
+    try:
+        parsed = urlparse(url.strip())
+    except ValueError:
+        return None
+
+    if parsed.scheme not in ('http', 'https'):
+        return None
+
+    host = parsed.netloc.lower().split(':')[0]
+    candidate = None
+
+    if host == 'youtu.be':
+        # youtu.be/<id>, optionally followed by a timestamp segment.
+        candidate = parsed.path.lstrip('/').split('/')[0]
+    elif host in YOUTUBE_HOSTS:
+        if parsed.path == '/watch':
+            candidate = parse_qs(parsed.query).get('v', [None])[0]
+        else:
+            for prefix in YOUTUBE_PATH_PREFIXES:
+                if parsed.path.startswith(prefix):
+                    candidate = parsed.path[len(prefix):].split('/')[0]
+                    break
+
+    # Validate before it is ever placed in an attribute. Anything that is not a
+    # bare video id is treated as unsupported rather than embedded.
+    if candidate and VIDEO_ID_PATTERN.match(candidate):
+        return candidate
+    return None
+
+
+class EmbedProcessor(Treeprocessor):
+    """Turn `[embed](url)` paragraphs into responsive player iframes.
+
+    Runs at priority 15: after the inline processors (20) have already turned
+    the directive into an <a>, but before the asset pass (1), so the paragraph
+    is replaced before anything tries to rewrite its href.
+
+    The trigger is the ordinary markdown link syntax, so the built-in link
+    processor handles escaping and autolinks. This only needs to recognise a
+    paragraph whose entire content is one link labelled `embed`.
+
+    Elements are built directly instead of stashing raw HTML, so the serializer
+    escapes every attribute and no fetched or user markup bypasses escaping.
+    """
+
+    def run(self, root):
+        # Collect first, then mutate: iter() is lazy, so inserting or removing
+        # children while walking would corrupt the traversal.
+        targets = []
+        for parent in root.iter():
+            for child in parent:
+                target = self.match(child)
+                if target is not None:
+                    targets.append((parent, child, target))
+
+        for parent, paragraph, video in targets:
+            index = list(parent).index(paragraph)
+            parent.remove(paragraph)
+            parent.insert(index, self.build_embed(video))
+
+    def match(self, paragraph):
+        """Return the video id if paragraph is an embed directive, else None."""
+        if paragraph.tag != 'p':
+            return None
+
+        children = list(paragraph)
+        if len(children) != 1 or children[0].tag != 'a':
+            return None
+
+        link = children[0]
+        if ''.join(link.itertext()).strip().lower() != EMBED_TRIGGER:
+            return None
+
+        # Reject "[embed](url) and some prose": the anchor has to be the whole
+        # paragraph, so surrounding text keeps the link intact.
+        if (paragraph.text or '').strip() or (link.tail or '').strip():
+            return None
+
+        return video_id(link.get('href') or '')
+
+    def build_embed(self, video):
+        # <figure> rather than a div, so figcaption is valid inside it.
+        wrapper = ElementTree.Element('figure')
+        wrapper.set('class', 'embed')
+
+        # The ratio is held by an inner box so the caption can sit below the
+        # player instead of overlapping it.
+        stage = ElementTree.SubElement(wrapper, 'div')
+        stage.set('class', 'embed-frame')
+
+        frame = ElementTree.SubElement(stage, 'iframe')
+        frame.set('src', f'https://www.youtube-nocookie.com/embed/{video}')
+        # The title is what a screen reader announces for the frame, so it has
+        # to name the content rather than repeat the word "video".
+        frame.set('title', 'YouTube video player')
+        frame.set('loading', 'lazy')
+        frame.set('allow', 'accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture')
+        frame.set('allowfullscreen', 'allowfullscreen')
+        frame.set('referrerpolicy', 'strict-origin-when-cross-origin')
+
+        caption = ElementTree.SubElement(wrapper, 'figcaption')
+        link = ElementTree.SubElement(caption, 'a')
+        link.set('href', f'https://www.youtube.com/watch?v={video}')
+        link.set('rel', 'noopener noreferrer')
+        link.set('target', '_blank')
+        link.text = 'Watch on YouTube'
+
+        return wrapper
+
+
 def read_config():
     if not CONFIG_PATH.is_file():
         config_module.config(ASSETS_DIR)
@@ -870,6 +1003,9 @@ def build(config, template):
             'elanor-assets',
             1,
         )
+        # Above the asset pass so the directive's paragraph is replaced before
+        # anything rewrites its href.
+        md.treeprocessors.register(EmbedProcessor(md), 'elanor-embed', 15)
 
         html_body = md.convert(body)
 
