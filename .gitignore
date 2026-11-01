@@ -209,3 +209,6 @@ __marimo__/
 # Elanor build state, tracks generated/ for pruning stale pages
 .elanor-manifest
 
+# Elanor build output (deployed to gh-pages by CI)
+generated/
+
