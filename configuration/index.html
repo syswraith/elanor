@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Customise Elanor&#39;s theme, site URL, Open Graph metadata, and build behaviour through config.json.">
+        <meta name="keywords" content="configuration, themes, config.json, open graph, site url, classless css">
+        <meta name="author" content="">
+        <link rel="canonical" href="https://syswraith.github.io/elanor/configuration/">
+
+        <!-- Open Graph / Facebook / Discord -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Configuration">
+        <meta property="og:description" content="Customise Elanor&#39;s theme, site URL, Open Graph metadata, and build behaviour through config.json.">
+        <meta property="og:url" content="https://syswraith.github.io/elanor/configuration/">
+        <meta property="og:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Configuration">
+        <meta name="twitter:description" content="Customise Elanor&#39;s theme, site URL, Open Graph metadata, and build behaviour through config.json.">
+        <meta name="twitter:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+
+        <title>Configuration</title>
+
+        <!-- Hide until the theme is applied, then reveal. The noscript block
+             below is what keeps the page visible when JS is unavailable. -->
+        <style>html{visibility: hidden;opacity:0;}</style>
+        <link rel="stylesheet" href="../pygments.css" type="text/css">
+        <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css" media="print" onload="this.media='all'">
+        <link rel="icon" type="image/x-icon" href="../favicon.ico">
+        <script>
+            (function () {
+                function reveal() {
+                    var el = document.documentElement;
+                    if (!el || el.style.visibility === 'visible') return;
+                    el.style.visibility = 'visible';
+                    el.style.opacity = 1;
+                }
+                window.addEventListener('load', reveal);
+                // A hanging theme CDN must never leave the page blank forever.
+                window.setTimeout(reveal, 3000);
+            })();
+        </script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+        <!-- markdown-katex has insert_fonts_css disabled, so this rule has to
+             live here instead of in the generated stylesheet. -->
+        <style type="text/css">
+            .task-list-item-checkbox {
+                margin-right: 0.4em;
+                vertical-align: middle;
+            }
+            .katex img {
+                object-fit: fill;
+                padding: unset;
+                display: block;
+                position: absolute;
+                width: 100%;
+                height: inherit;
+            }
+            /* Media embeds. The theme is classless CSS, so these rules have to
+                 live here rather than in a class the theme knows nothing
+                 about. The frame reserves the aspect ratio so the iframe
+                 scales with the page instead of overflowing it. */
+            .embed {
+                margin: 1.5em 0;
+            }
+            .embed-frame {
+                position: relative;
+                aspect-ratio: 16 / 9;
+            }
+            .embed-frame iframe {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                border: 0;
+            }
+            .embed figcaption {
+                font-size: 0.8em;
+            }
+        </style>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // markdown-katex renders ```math blocks and $`inline`$ server
+                // side; $$display$$ and \(inline\) still need the browser.
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "\\(", right: "\\)", display: false}
+                    ]
+                });
+            });
+        </script>
+
+        <noscript>
+            <style>html{visibility: visible;opacity:1;}</style>
+        </noscript>
+    </head>
+    <body>
+        <h1 id="configuration">Configuration</h1>
+<p>Elanor is configured through <code>assets/config.json</code>. If the file doesn't exist
+when you run <code>main.py</code>, the interactive wizard creates it for you.</p>
+<h2 id="configjson">config.json</h2>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;theme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://unpkg.com/sakura.css/css/sakura.css&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;site_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://yourusername.github.io/elanor&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;og_image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://example.com/image.png&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Required</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>theme</code></td>
+<td><strong>Yes</strong></td>
+<td>URL to a classless CSS stylesheet.</td>
+</tr>
+<tr>
+<td><code>site_url</code></td>
+<td>No</td>
+<td>Base URL for canonical links and Open Graph metadata.</td>
+</tr>
+<tr>
+<td><code>og_image</code></td>
+<td>No</td>
+<td>Image URL for Open Graph / Twitter cards.</td>
+</tr>
+<tr>
+<td><code>exclude_drafts</code></td>
+<td>No</td>
+<td><code>true</code> (default) to skip <code>draft: true</code> notes.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="choosing-a-theme">Choosing a theme</h2>
+<p>Elanor ships with 20 classless CSS themes in <code>assets/themes.json</code>:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Theme</th>
+<th>Style</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>awsm</td>
+<td>Clean, minimal, readable.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>bahunya</td>
+<td>Bold, high-contrast.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>bamboo</td>
+<td>Natural, earthy tones.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>bootstrap</td>
+<td>The classic Bootstrap look.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>holiday</td>
+<td>Bright and cheerful.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>kacit</td>
+<td>Sharp, geometric.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>minicss</td>
+<td>Lightweight utility framework.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>no-class</td>
+<td>Truly classless, true to the name.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>pico</td>
+<td>Modern, dark mode support.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>sakura</td>
+<td>Elegant pink-accented default.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>sakura-vader</td>
+<td>Sakura's dark side.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>simple</td>
+<td>Simple.css — minimal and accessible.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>tacit</td>
+<td>Opinionated, zero-class.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>tufte</td>
+<td>Edward Tufte–inspired typography.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>w3c-chocolate</td>
+<td>W3C Core Style — warm.</td>
+</tr>
+<tr>
+<td>16</td>
+<td>w3c-traditional</td>
+<td>W3C Core Style — classic.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>water-dark</td>
+<td>Water.css dark mode.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>water-light</td>
+<td>Water.css light mode.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>writ</td>
+<td>Tiny, opinionated.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>yorha</td>
+<td>NieR: Automata–inspired.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="interactive-selection">Interactive selection</h3>
+<p>Run <code>main.py</code> without a <code>config.json</code> and it will prompt you:</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">Choose</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">theme</span><span class="p">:</span>
+<span class="w">  </span><span class="mi">1</span><span class="p">:</span><span class="w"> </span><span class="nx">awsm</span>
+<span class="w">  </span><span class="mi">2</span><span class="p">:</span><span class="w"> </span><span class="nx">bahunya</span>
+<span class="w">  </span><span class="o">...</span>
+<span class="nx">Your</span><span class="w"> </span><span class="kd">choice</span><span class="p">:</span>
+</code></pre></div>
+
+<h3 id="non-interactive-ci">Non-interactive (CI)</h3>
+<p>Set the <code>ELANOR_THEME</code> environment variable to the theme number:</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">ELANOR_THEME</span><span class="o">=</span><span class="m">10</span><span class="w"> </span>python3<span class="w"> </span>main.py
+</code></pre></div>
+
+<p>This writes <code>config.json</code> automatically and skips all prompts.</p>
+<h3 id="using-a-custom-theme">Using a custom theme</h3>
+<p>You can use any classless CSS stylesheet. Just set <code>theme</code> to its URL:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;theme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://cdn.example.com/my-custom-theme.css&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The theme is loaded as a <code>&lt;link rel="stylesheet"&gt;</code> — Elanor doesn't bundle or
+process it.</p>
+<h2 id="site-url">Site URL</h2>
+<p>The <code>site_url</code> value powers two things:</p>
+<ol>
+<li><strong>Canonical links</strong> — <code>&lt;link rel="canonical"&gt;</code> on every page.</li>
+<li><strong>Open Graph URLs</strong> — <code>&lt;meta property="og:url"&gt;</code> for rich link previews.</li>
+</ol>
+<p>Set it to the root URL where your site will be served:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;site_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://yourusername.github.io/elanor&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Leave it blank or omit it entirely if you don't need canonical URLs.</p>
+<h2 id="open-graph-image">Open Graph image</h2>
+<p>The <code>og_image</code> field sets the image used in social media previews. It can be:</p>
+<ul>
+<li>An absolute URL: <code>https://example.com/banner.png</code></li>
+<li>A site-relative path: <code>images/banner.png</code> (resolved against <code>site_url</code>)</li>
+</ul>
+<p>If omitted, Elanor falls back to the project icon on GitHub.</p>
+<h2 id="the-template">The template</h2>
+<p>The HTML shell that wraps every page lives at <code>assets/template.html</code>. It's a
+Jinja2 template with these variables:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{ theme }}</code></td>
+<td>URL from <code>config.json</code>.</td>
+</tr>
+<tr>
+<td><code>{{ content }}</code></td>
+<td>The rendered HTML body of the note.</td>
+</tr>
+<tr>
+<td><code>{{ prefix }}</code></td>
+<td>Relative path back to the site root (<code>../</code>).</td>
+</tr>
+<tr>
+<td><code>{{ title }}</code></td>
+<td>From frontmatter or filename.</td>
+</tr>
+<tr>
+<td><code>{{ lang }}</code></td>
+<td>From frontmatter, defaults to <code>en</code>.</td>
+</tr>
+<tr>
+<td><code>{{ author }}</code></td>
+<td>From frontmatter.</td>
+</tr>
+<tr>
+<td><code>{{ description }}</code></td>
+<td>From frontmatter or first paragraph.</td>
+</tr>
+<tr>
+<td><code>{{ keywords }}</code></td>
+<td>From frontmatter.</td>
+</tr>
+<tr>
+<td><code>{{ canonical }}</code></td>
+<td>Full canonical URL.</td>
+</tr>
+<tr>
+<td><code>{{ og_image }}</code></td>
+<td>Open Graph image URL.</td>
+</tr>
+<tr>
+<td><code>{{ katex_version }}</code></td>
+<td>KaTeX CDN version string.</td>
+</tr>
+</tbody>
+</table>
+<p>You can edit this template to add a header, footer, navigation, analytics, or
+anything else — Elanor will pick up your changes on the next build.</p>
+<h2 id="next-steps">Next steps</h2>
+<ul>
+<li><a href="../deployment/">Deployment</a> — get your configured site live.</li>
+<li><a href="../architecture/">Architecture</a> — understand how Elanor processes your config.</li>
+</ul>
+    </body>
+</html>

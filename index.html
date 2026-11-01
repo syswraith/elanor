@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="A minimalistic static site generator that turns Markdown into beautiful, classless-CSS-styled pages.">
+        <meta name="keywords" content="elanor, static site generator, markdown, python, classless css">
+        <meta name="author" content="">
+        <link rel="canonical" href="https://syswraith.github.io/elanor/">
+
+        <!-- Open Graph / Facebook / Discord -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Elanor">
+        <meta property="og:description" content="A minimalistic static site generator that turns Markdown into beautiful, classless-CSS-styled pages.">
+        <meta property="og:url" content="https://syswraith.github.io/elanor/">
+        <meta property="og:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Elanor">
+        <meta name="twitter:description" content="A minimalistic static site generator that turns Markdown into beautiful, classless-CSS-styled pages.">
+        <meta name="twitter:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+
+        <title>Elanor</title>
+
+        <!-- Hide until the theme is applied, then reveal. The noscript block
+             below is what keeps the page visible when JS is unavailable. -->
+        <style>html{visibility: hidden;opacity:0;}</style>
+        <link rel="stylesheet" href="pygments.css" type="text/css">
+        <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css" media="print" onload="this.media='all'">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <script>
+            (function () {
+                function reveal() {
+                    var el = document.documentElement;
+                    if (!el || el.style.visibility === 'visible') return;
+                    el.style.visibility = 'visible';
+                    el.style.opacity = 1;
+                }
+                window.addEventListener('load', reveal);
+                // A hanging theme CDN must never leave the page blank forever.
+                window.setTimeout(reveal, 3000);
+            })();
+        </script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+        <!-- markdown-katex has insert_fonts_css disabled, so this rule has to
+             live here instead of in the generated stylesheet. -->
+        <style type="text/css">
+            .task-list-item-checkbox {
+                margin-right: 0.4em;
+                vertical-align: middle;
+            }
+            .katex img {
+                object-fit: fill;
+                padding: unset;
+                display: block;
+                position: absolute;
+                width: 100%;
+                height: inherit;
+            }
+            /* Media embeds. The theme is classless CSS, so these rules have to
+                 live here rather than in a class the theme knows nothing
+                 about. The frame reserves the aspect ratio so the iframe
+                 scales with the page instead of overflowing it. */
+            .embed {
+                margin: 1.5em 0;
+            }
+            .embed-frame {
+                position: relative;
+                aspect-ratio: 16 / 9;
+            }
+            .embed-frame iframe {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                border: 0;
+            }
+            .embed figcaption {
+                font-size: 0.8em;
+            }
+        </style>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // markdown-katex renders ```math blocks and $`inline`$ server
+                // side; $$display$$ and \(inline\) still need the browser.
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "\\(", right: "\\)", display: false}
+                    ]
+                });
+            });
+        </script>
+
+        <noscript>
+            <style>html{visibility: visible;opacity:1;}</style>
+        </noscript>
+    </head>
+    <body>
+        <h1 id="elanor">Elanor</h1>
+<p>Elanor is a minimalistic static site generator built for Markdown. Written in
+Python, it converts a folder of Markdown files into a clean, navigable website
+styled entirely with <a href="https://github.com/dbohdan/classless-css">classless CSS</a>
+— no build tooling, no component frameworks, just your words.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li><strong>Markdown with batteries</strong> — fenced code blocks, syntax highlighting, tables,
+  and a table of contents, all out of the box.</li>
+<li><strong>KaTeX math</strong> — inline and display math rendered at build time via the KaTeX
+  CLI, so pages load fast and work offline.</li>
+<li><strong>Obsidian-style wikilinks</strong> — <code>[[Page]]</code>, <code>[[Page|display text]]</code>, and
+  <code>[[Page#heading]]</code> all resolve automatically.</li>
+<li><strong>Task lists</strong> — <code>- [x]</code> and <code>- [ ]</code> become real checkboxes.</li>
+<li><strong>YouTube embeds</strong> — write <code>[embed](https://youtube.com/watch?v=...)</code> on its
+  own line and get a responsive, privacy-enhanced iframe.</li>
+<li><strong>Frontmatter</strong> — YAML front matter for titles, descriptions, tags, aliases,
+  drafts, and more.</li>
+<li><strong>20 classless CSS themes</strong> — pick one at setup time; switch any time by
+  editing a single JSON value.</li>
+<li><strong>Folder indexes</strong> — directories without an <code>index.md</code> get a generated listing
+  page so every folder is reachable.</li>
+<li><strong>Incremental cleanup</strong> — stale output files from previous builds are pruned
+  automatically.</li>
+<li><strong>GitHub Pages deploy</strong> — ships with a CI workflow that builds and pushes to
+  <code>gh-pages</code> on every commit to <code>main</code>.</li>
+</ul>
+<h2 id="quick-start">Quick start</h2>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Clone the repo</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/syswraith/elanor.git
+<span class="nb">cd</span><span class="w"> </span>elanor
+
+<span class="c1"># Create a virtualenv and install dependencies</span>
+python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>./venv/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+
+<span class="c1"># Build the site</span>
+python3<span class="w"> </span>main.py
+</code></pre></div>
+
+<p>The generated site lands in <code>generated/</code>. Open <code>generated/index.html</code> in a
+browser or serve it with <code>python3 -m http.server -d generated</code>.</p>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li><strong>Python 3.10+</strong></li>
+<li><strong>Node.js</strong> — required by <code>markdown-katex</code>, which shells out to the KaTeX CLI
+  at build time.</li>
+</ul>
+<h2 id="learn-more">Learn more</h2>
+<ul>
+<li><a href="getting-started/">Getting Started</a> — installation, first build, and project layout.</li>
+<li><a href="writing-content/">Writing Content</a> — Markdown syntax, frontmatter, wikilinks, and embeds.</li>
+<li><a href="markdown-feature-showcase/">Markdown Feature Showcase</a> — live demonstration of all supported Markdown features and extensions.</li>
+<li><a href="configuration/">Configuration</a> — themes, site URL, Open Graph, and <code>config.json</code>.</li>
+<li><a href="deployment/">Deployment</a> — GitHub Pages workflow and manual deploy.</li>
+<li><a href="architecture/">Architecture</a> — how Elanor's build pipeline works under the hood.</li>
+</ul>
+<hr />
+<p><em>Elanor was named after Elanor Gardner — the first daughter of Samwise Gamgee,
+to whom he gave the Red Book of Westmarch before he sailed away to Valinor.</em></p>
+    </body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Markdown syntax, frontmatter fields, wikilinks, embeds, and everything else you can put in a note.">
+        <meta name="keywords" content="markdown, frontmatter, wikilinks, embeds, katex, math, syntax highlighting">
+        <meta name="author" content="">
+        <link rel="canonical" href="https://syswraith.github.io/elanor/writing-content/">
+
+        <!-- Open Graph / Facebook / Discord -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Writing Content">
+        <meta property="og:description" content="Markdown syntax, frontmatter fields, wikilinks, embeds, and everything else you can put in a note.">
+        <meta property="og:url" content="https://syswraith.github.io/elanor/writing-content/">
+        <meta property="og:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Writing Content">
+        <meta name="twitter:description" content="Markdown syntax, frontmatter fields, wikilinks, embeds, and everything else you can put in a note.">
+        <meta name="twitter:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+
+        <title>Writing Content</title>
+
+        <!-- Hide until the theme is applied, then reveal. The noscript block
+             below is what keeps the page visible when JS is unavailable. -->
+        <style>html{visibility: hidden;opacity:0;}</style>
+        <link rel="stylesheet" href="../pygments.css" type="text/css">
+        <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css" media="print" onload="this.media='all'">
+        <link rel="icon" type="image/x-icon" href="../favicon.ico">
+        <script>
+            (function () {
+                function reveal() {
+                    var el = document.documentElement;
+                    if (!el || el.style.visibility === 'visible') return;
+                    el.style.visibility = 'visible';
+                    el.style.opacity = 1;
+                }
+                window.addEventListener('load', reveal);
+                // A hanging theme CDN must never leave the page blank forever.
+                window.setTimeout(reveal, 3000);
+            })();
+        </script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+        <!-- markdown-katex has insert_fonts_css disabled, so this rule has to
+             live here instead of in the generated stylesheet. -->
+        <style type="text/css">
+            .task-list-item-checkbox {
+                margin-right: 0.4em;
+                vertical-align: middle;
+            }
+            .katex img {
+                object-fit: fill;
+                padding: unset;
+                display: block;
+                position: absolute;
+                width: 100%;
+                height: inherit;
+            }
+            /* Media embeds. The theme is classless CSS, so these rules have to
+                 live here rather than in a class the theme knows nothing
+                 about. The frame reserves the aspect ratio so the iframe
+                 scales with the page instead of overflowing it. */
+            .embed {
+                margin: 1.5em 0;
+            }
+            .embed-frame {
+                position: relative;
+                aspect-ratio: 16 / 9;
+            }
+            .embed-frame iframe {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                border: 0;
+            }
+            .embed figcaption {
+                font-size: 0.8em;
+            }
+        </style>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // markdown-katex renders ```math blocks and $`inline`$ server
+                // side; $$display$$ and \(inline\) still need the browser.
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "\\(", right: "\\)", display: false}
+                    ]
+                });
+            });
+        </script>
+
+        <noscript>
+            <style>html{visibility: visible;opacity:1;}</style>
+        </noscript>
+    </head>
+    <body>
+        <h1 id="writing-content">Writing Content</h1>
+<p>Elanor reads every <code>.md</code> and <code>.markdown</code> file in <code>content/</code>, converts it to
+HTML, and writes the result to <code>generated/</code>. This page covers everything you
+can do inside a note.</p>
+<h2 id="frontmatter">Frontmatter</h2>
+<p>Every note can start with a YAML front matter block:</p>
+<div class="codehilite"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My Page Title</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">A short summary for search engines and link previews.</span>
+<span class="nt">keywords</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">foo, bar, baz</span>
+<span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">notes</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">demo</span><span class="p p-Indicator">]</span>
+<span class="nt">author</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Your Name</span>
+<span class="nt">lang</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">en</span>
+<span class="nt">draft</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">old-name</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">/legacy/path</span><span class="p p-Indicator">]</span>
+<span class="nn">---</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>title</code></td>
+<td>string</td>
+<td>Page <code>&lt;title&gt;</code> and heading. Falls back to filename.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td><code>&lt;meta&gt;</code> description. Falls back to first paragraph.</td>
+</tr>
+<tr>
+<td><code>keywords</code></td>
+<td>string or list</td>
+<td><code>&lt;meta&gt;</code> keywords. <code>tags</code> is accepted too.</td>
+</tr>
+<tr>
+<td><code>author</code></td>
+<td>string</td>
+<td><code>&lt;meta&gt;</code> author.</td>
+</tr>
+<tr>
+<td><code>lang</code></td>
+<td>string</td>
+<td><code>&lt;html lang=""&gt;</code>. Defaults to <code>en</code>.</td>
+</tr>
+<tr>
+<td><code>draft</code></td>
+<td>boolean</td>
+<td><code>true</code> excludes the page from the build.</td>
+</tr>
+<tr>
+<td><code>publish</code></td>
+<td>boolean</td>
+<td><code>false</code> excludes the page (Obsidian convention).</td>
+</tr>
+<tr>
+<td><code>alias</code></td>
+<td>string or list</td>
+<td>Alternative names for wikilink resolution.</td>
+</tr>
+</tbody>
+</table>
+<p>If frontmatter is malformed, Elanor warns but still builds the page — the
+broken YAML block is stripped so it never leaks into the HTML.</p>
+<h2 id="basic-markdown">Basic Markdown</h2>
+<p>All standard Markdown works, plus these extensions:</p>
+<h3 id="fenced-code-blocks-with-syntax-highlighting">Fenced code blocks with syntax highlighting</h3>
+<div class="codehilite"><pre><span></span><code><span class="sb">```python</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!&quot;</span>
+<span class="sb">```</span>
+</code></pre></div>
+
+<p>Syntax highlighting is powered by Pygments. The generated <code>pygments.css</code> is
+included automatically.</p>
+<h3 id="tables">Tables</h3>
+<div class="codehilite"><pre><span></span><code>| Column A | Column B |
+|----------|----------|
+| Cell 1   | Cell 2   |
+</code></pre></div>
+
+<h3 id="table-of-contents">Table of contents</h3>
+<p>The <code>toc</code> extension is enabled. Use <code>[TOC]</code> in your Markdown to insert a
+generated table of contents.</p>
+<h2 id="katex-math">KaTeX math</h2>
+<p>Elanor supports math in three forms:</p>
+<h3 id="display-math-fenced">Display math (fenced)</h3>
+<div class="codehilite"><pre><span></span><code><span class="sb">```math</span>
+<span class="s">E = mc^2</span>
+<span class="sb">```</span>
+</code></pre></div>
+
+<h3 id="display-math-dollar-signs">Display math (dollar signs)</h3>
+<div class="codehilite"><pre><span></span><code>$$
+\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
+$$
+</code></pre></div>
+
+<h3 id="inline-math">Inline math</h3>
+<div class="codehilite"><pre><span></span><code>The area of a circle is \(A = \pi r^2\).
+</code></pre></div>
+
+<p>Fenced <code>math</code> blocks and <code>$`inline`$</code> syntax are rendered at build time by
+the KaTeX CLI (requires Node.js). Dollar-sign display math and <code>\(...\)</code> inline
+math are rendered client-side by the KaTeX JavaScript library.</p>
+<h2 id="wikilinks">Wikilinks</h2>
+<p>Elanor resolves Obsidian-style <code>[[wikilinks]]</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[[Page Name]]</code></td>
+<td>Links to the page titled "Page Name".</td>
+</tr>
+<tr>
+<td><code>[[Page Name\|display text]]</code></td>
+<td>Custom link text.</td>
+</tr>
+<tr>
+<td><code>[[Page Name#Heading]]</code></td>
+<td>Deep link to a heading on the target page.</td>
+</tr>
+<tr>
+<td><code>[[#Heading]]</code></td>
+<td>Anchor link within the current page.</td>
+</tr>
+<tr>
+<td><code>[[folder/note]]</code></td>
+<td>Explicit path to a note in a subfolder.</td>
+</tr>
+<tr>
+<td><code>[[image.png]]</code></td>
+<td>Links to an asset file in the same folder.</td>
+</tr>
+</tbody>
+</table>
+<p>Resolution order:</p>
+<ol>
+<li>Relative to the current file's directory.</li>
+<li>Relative to the content root.</li>
+<li>By unique filename anywhere in the tree (Obsidian convention).</li>
+<li>By frontmatter alias.</li>
+</ol>
+<p>Unresolved wikilinks are left as plain text so you can spot them.</p>
+<h2 id="task-lists">Task lists</h2>
+<p>Standard GitHub-flavored task list syntax:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">- [x]</span> Write documentation
+<span class="k">- [ ]</span> Deploy to GitHub Pages
+<span class="k">- [ ]</span> Celebrate
+</code></pre></div>
+
+<p>These render as real (disabled) checkboxes.</p>
+<h2 id="youtube-embeds">YouTube embeds</h2>
+<p>Write a link labelled <code>embed</code> on its own line:</p>
+<div class="codehilite"><pre><span></span><code>[<span class="nt">embed</span>](<span class="na">https://www.youtube.com/watch?v=dQw4w9WgXcQ</span>)
+</code></pre></div>
+
+<p>Elanor extracts the video ID from the URL and produces a responsive,
+privacy-enhanced iframe (<code>youtube-nocookie.com</code>). Nothing is fetched at build
+time, so builds work fully offline.</p>
+<p>Supported URL formats:</p>
+<ul>
+<li><code>https://www.youtube.com/watch?v=ID</code></li>
+<li><code>https://youtu.be/ID</code></li>
+<li><code>https://www.youtube.com/embed/ID</code></li>
+<li><code>https://www.youtube.com/shorts/ID</code></li>
+<li><code>https://music.youtube.com/watch?v=ID</code></li>
+</ul>
+<p>Any other URL is left as a normal link.</p>
+<h2 id="assets">Assets</h2>
+<p>Non-Markdown files in <code>content/</code> (images, PDFs, etc.) are copied to <code>generated/</code>
+at their original relative path. Reference them with standard Markdown:</p>
+<div class="codehilite"><pre><span></span><code>![<span class="nt">screenshot</span>](<span class="na">images/screenshot.png</span>)
+</code></pre></div>
+
+<p>Elanor rewrites relative paths so they resolve correctly from the page's output
+directory.</p>
+<h2 id="subfolders-and-folder-indexes">Subfolders and folder indexes</h2>
+<p>Organise notes into subdirectories:</p>
+<div class="codehilite"><pre><span></span><code>content/
+├── Guides/
+│   ├── install.md
+│   └── upgrade.md
+└── index.md
+</code></pre></div>
+
+<p>Folders without an <code>index.md</code> get a generated listing page that links to every
+note and subfolder inside them, so <code>[[Guides/]]</code>-style wikilinks always land
+somewhere.</p>
+<h2 id="drafts">Drafts</h2>
+<p>Mark a note as a draft to exclude it from the build:</p>
+<div class="codehilite"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">draft</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nn">---</span>
+</code></pre></div>
+
+<p>Or, using the Obsidian convention:</p>
+<div class="codehilite"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">publish</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="nn">---</span>
+</code></pre></div>
+
+<p>Links to draft pages remain unresolved and are reported as broken in the build
+output — useful for catching references to unpublished content.</p>
+<h2 id="next-steps">Next steps</h2>
+<ul>
+<li><a href="../configuration/">Configuration</a> — themes, site URL, and Open Graph settings.</li>
+<li><a href="../deployment/">Deployment</a> — get your site live on GitHub Pages.</li>
+</ul>
+    </body>
+</html>

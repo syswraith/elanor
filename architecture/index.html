@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="How Elanor&#39;s modular build pipeline turns a folder of Markdown into a static site.">
+        <meta name="keywords" content="architecture, build pipeline, internals, link index, wikilinks, markdown extensions, modular design">
+        <meta name="author" content="">
+        <link rel="canonical" href="https://syswraith.github.io/elanor/architecture/">
+
+        <!-- Open Graph / Facebook / Discord -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Architecture">
+        <meta property="og:description" content="How Elanor&#39;s modular build pipeline turns a folder of Markdown into a static site.">
+        <meta property="og:url" content="https://syswraith.github.io/elanor/architecture/">
+        <meta property="og:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Architecture">
+        <meta name="twitter:description" content="How Elanor&#39;s modular build pipeline turns a folder of Markdown into a static site.">
+        <meta name="twitter:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+
+        <title>Architecture</title>
+
+        <!-- Hide until the theme is applied, then reveal. The noscript block
+             below is what keeps the page visible when JS is unavailable. -->
+        <style>html{visibility: hidden;opacity:0;}</style>
+        <link rel="stylesheet" href="../pygments.css" type="text/css">
+        <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css" media="print" onload="this.media='all'">
+        <link rel="icon" type="image/x-icon" href="../favicon.ico">
+        <script>
+            (function () {
+                function reveal() {
+                    var el = document.documentElement;
+                    if (!el || el.style.visibility === 'visible') return;
+                    el.style.visibility = 'visible';
+                    el.style.opacity = 1;
+                }
+                window.addEventListener('load', reveal);
+                // A hanging theme CDN must never leave the page blank forever.
+                window.setTimeout(reveal, 3000);
+            })();
+        </script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+        <!-- markdown-katex has insert_fonts_css disabled, so this rule has to
+             live here instead of in the generated stylesheet. -->
+        <style type="text/css">
+            .task-list-item-checkbox {
+                margin-right: 0.4em;
+                vertical-align: middle;
+            }
+            .katex img {
+                object-fit: fill;
+                padding: unset;
+                display: block;
+                position: absolute;
+                width: 100%;
+                height: inherit;
+            }
+            /* Media embeds. The theme is classless CSS, so these rules have to
+                 live here rather than in a class the theme knows nothing
+                 about. The frame reserves the aspect ratio so the iframe
+                 scales with the page instead of overflowing it. */
+            .embed {
+                margin: 1.5em 0;
+            }
+            .embed-frame {
+                position: relative;
+                aspect-ratio: 16 / 9;
+            }
+            .embed-frame iframe {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                border: 0;
+            }
+            .embed figcaption {
+                font-size: 0.8em;
+            }
+        </style>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // markdown-katex renders ```math blocks and $`inline`$ server
+                // side; $$display$$ and \(inline\) still need the browser.
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "\\(", right: "\\)", display: false}
+                    ]
+                });
+            });
+        </script>
+
+        <noscript>
+            <style>html{visibility: visible;opacity:1;}</style>
+        </noscript>
+    </head>
+    <body>
+        <h1 id="architecture">Architecture</h1>
+<p>Elanor is organized into a clean, modular Python package (<code>elanor</code>) with <code>main.py</code> serving as the top-level CLI entry point.
+This page explains how the codebase is structured and how the build pipeline works.</p>
+<h2 id="codebase-structure">Codebase structure</h2>
+<p>The implementation is split across dedicated modules with clear responsibilities:</p>
+<ul>
+<li><strong><code>elanor/constants.py</code></strong> — path configurations, regex patterns, and default settings.</li>
+<li><strong><code>elanor/utils.py</code></strong> — slug generation, key normalisation, and relative URL calculation.</li>
+<li><strong><code>elanor/frontmatter.py</code></strong> — frontmatter parsing, metadata extraction, draft checking, and summary generation.</li>
+<li><strong><code>elanor/fs.py</code></strong> — source file iteration, asset copying, folder title derivation, and manifest/pruning operations.</li>
+<li><strong><code>elanor/index.py</code></strong> — <code>LinkIndex</code> model, directory assignment, and wikilink resolution.</li>
+<li><strong><code>elanor/processors.py</code></strong> — Python-Markdown tree and inline processors (wikilinks, tasks, embeds, asset paths).</li>
+<li><strong><code>elanor/builder.py</code></strong> — core site build loop, folder index generator, and reporting.</li>
+<li><strong><code>elanor/cli.py</code></strong> — configuration loader and command-line execution entry point.</li>
+<li><strong><code>main.py</code></strong> — top-level executable entry point and backwards-compatible namespace re-export.</li>
+</ul>
+<h2 id="build-pipeline-overview">Build pipeline overview</h2>
+<div class="codehilite"><pre><span></span><code>content/          elanor.builder       generated/
+  <span class="gs">*.md    ──────►    build()   ──────►   *</span>/index.html
+  images/                                images/
+  <span class="k">...</span>                                    pygments.css
+                                         favicon.ico
+</code></pre></div>
+
+<p>The <code>main()</code> function runs these steps in order:</p>
+<ol>
+<li><strong>Read config</strong> — load <code>assets/config.json</code> (or run the wizard).</li>
+<li><strong>Load template</strong> — parse <code>assets/template.html</code> with Jinja2.</li>
+<li><strong>Build link index</strong> — scan <code>content/</code> to map every page, asset, folder,
+   and alias.</li>
+<li><strong>Assign output directories</strong> — choose a slug-based output path for each
+   page, resolving collisions.</li>
+<li><strong>Render pages</strong> — convert each Markdown file to HTML with all extensions.</li>
+<li><strong>Build folder indexes</strong> — generate listing pages for folders without
+   <code>index.md</code>.</li>
+<li><strong>Write assets</strong> — copy <code>pygments.css</code> and <code>favicon.*</code>.</li>
+<li><strong>Prune stale files</strong> — remove outputs from previous builds that no longer
+   have a source.</li>
+<li><strong>Write manifest</strong> — record all generated files for the next prune pass.</li>
+<li><strong>Report</strong> — print broken wikilinks and skipped files.</li>
+</ol>
+<h2 id="the-link-index">The link index</h2>
+<p>Before any page is rendered, Elanor walks the entire <code>content/</code> tree and builds
+a <code>LinkIndex</code> — a data structure that maps every possible link target to its
+output location:</p>
+<ul>
+<li><strong><code>pages</code></strong> — maps content-relative keys (like <code>guides/install</code>) to output
+  directories (like <code>guides/install</code>).</li>
+<li><strong><code>assets</code></strong> — the set of non-Markdown files.</li>
+<li><strong><code>by_name</code></strong> — maps bare filenames to their full keys, for Obsidian-style
+  <code>[[note]]</code> links that skip the path. Ambiguous names (duplicates) resolve to
+  <code>None</code>.</li>
+<li><strong><code>by_alias</code></strong> — maps frontmatter <code>alias</code> values to page keys.</li>
+<li><strong><code>folders</code></strong> — the set of content subdirectories.</li>
+</ul>
+<p>This index is what makes wikilinks work: <code>[[Some Post]]</code> is looked up against
+<code>by_name</code>, and <code>[[guides/install]]</code> is looked up against <code>pages</code>.</p>
+<h2 id="url-structure">URL structure</h2>
+<p>Elanor writes every page to <code>&lt;slug&gt;/index.html</code> so URLs are clean:</p>
+<div class="codehilite"><pre><span></span><code>content/Blogs/Hello World.md
+  → generated/blogs/hello-world/index.html
+  → served at /blogs/hello-world/
+</code></pre></div>
+
+<p>The slug is derived from the <code>title</code> frontmatter field, falling back to the
+filename. Non-ASCII characters are dropped, and collisions get a numeric suffix
+(<code>-2</code>, <code>-3</code>, etc.).</p>
+<p>A file named <code>index.md</code> keeps its folder's URL rather than getting nested
+further.</p>
+<h2 id="markdown-extensions">Markdown extensions</h2>
+<p>Elanor configures Python-Markdown with these extensions:</p>
+<table>
+<thead>
+<tr>
+<th>Extension</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fenced_code</code></td>
+<td><code>```</code> code blocks.</td>
+</tr>
+<tr>
+<td><code>codehilite</code></td>
+<td>Pygments syntax highlighting.</td>
+</tr>
+<tr>
+<td><code>markdown.extensions.tables</code></td>
+<td>Pipe tables.</td>
+</tr>
+<tr>
+<td><code>markdown.extensions.toc</code></td>
+<td><code>[TOC]</code> and heading anchors.</td>
+</tr>
+<tr>
+<td><code>markdown_katex</code></td>
+<td>Server-side KaTeX rendering.</td>
+</tr>
+</tbody>
+</table>
+<p>On top of these, Elanor registers custom processors:</p>
+<h3 id="wikilinkprocessor-inline-priority-175">WikilinkProcessor (inline, priority 175)</h3>
+<p>Matches <code>[[...]]</code> and resolves them through the link index. Produces
+<code>LinkElement</code> nodes (a subclass of <code>&lt;a&gt;</code>) tagged with <code>page_relative = True</code>
+so the asset path rewriter knows to skip them.</p>
+<h3 id="taskprocessor-inline-priority-180">TaskProcessor (inline, priority 180)</h3>
+<p>Matches <code>[x]</code> and <code>[ ]</code> at the start of list items and replaces them with
+real <code>&lt;input type="checkbox"&gt;</code> elements.</p>
+<h3 id="embedprocessor-tree-priority-15">EmbedProcessor (tree, priority 15)</h3>
+<p>Finds paragraphs whose only child is a link labelled <code>embed</code>, extracts the
+YouTube video ID from the URL, and replaces the paragraph with a responsive
+<code>&lt;figure&gt;</code> containing a privacy-enhanced iframe.</p>
+<h3 id="assetpathprocessor-tree-priority-1">AssetPathProcessor (tree, priority 1)</h3>
+<p>Rewrites relative <code>src</code> and <code>href</code> attributes on images, videos, audio, and
+plain links so they resolve correctly from the page's output directory rather
+than its source directory.</p>
+<h2 id="incremental-cleanup">Incremental cleanup</h2>
+<p>Elanor writes a <code>.elanor-manifest</code> file listing every generated path. On the
+next build, any files in the old manifest that aren't in the new one are
+deleted, and empty directories are removed. This keeps <code>generated/</code> clean
+without requiring a full wipe between builds.</p>
+<h2 id="frontmatter-handling">Frontmatter handling</h2>
+<p>Frontmatter is parsed with <code>python-frontmatter</code>, which preserves YAML types
+(lists for tags, booleans for draft flags). If the YAML is malformed, Elanor
+warns on stderr but still builds the page — the raw frontmatter block is
+stripped by regex so it never appears in the rendered HTML.</p>
+<h2 id="security">Security</h2>
+<ul>
+<li><strong>Jinja2 autoescape</strong> is enabled. Frontmatter values (title, description,
+  author) are escaped before they reach HTML attributes.</li>
+<li><strong>Embeds</strong> are built from an allowlist of video ID patterns, never from
+  fetched markup. The video ID regex (<code>^[A-Za-z0-9_-]{6,20}$</code>) ensures only
+  safe values reach an <code>iframe src</code>.</li>
+<li><strong>HTML files</strong> in <code>content/</code> are excluded from the build to prevent
+  publishing stray build artifacts.</li>
+</ul>
+    </body>
+</html>

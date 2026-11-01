@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Deploy your Elanor site to GitHub Pages automatically or manually.">
+        <meta name="keywords" content="deployment, github pages, ci, github actions, ghp-import">
+        <meta name="author" content="">
+        <link rel="canonical" href="https://syswraith.github.io/elanor/deployment/">
+
+        <!-- Open Graph / Facebook / Discord -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Deployment">
+        <meta property="og:description" content="Deploy your Elanor site to GitHub Pages automatically or manually.">
+        <meta property="og:url" content="https://syswraith.github.io/elanor/deployment/">
+        <meta property="og:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Deployment">
+        <meta name="twitter:description" content="Deploy your Elanor site to GitHub Pages automatically or manually.">
+        <meta name="twitter:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+
+        <title>Deployment</title>
+
+        <!-- Hide until the theme is applied, then reveal. The noscript block
+             below is what keeps the page visible when JS is unavailable. -->
+        <style>html{visibility: hidden;opacity:0;}</style>
+        <link rel="stylesheet" href="../pygments.css" type="text/css">
+        <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css" media="print" onload="this.media='all'">
+        <link rel="icon" type="image/x-icon" href="../favicon.ico">
+        <script>
+            (function () {
+                function reveal() {
+                    var el = document.documentElement;
+                    if (!el || el.style.visibility === 'visible') return;
+                    el.style.visibility = 'visible';
+                    el.style.opacity = 1;
+                }
+                window.addEventListener('load', reveal);
+                // A hanging theme CDN must never leave the page blank forever.
+                window.setTimeout(reveal, 3000);
+            })();
+        </script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+        <!-- markdown-katex has insert_fonts_css disabled, so this rule has to
+             live here instead of in the generated stylesheet. -->
+        <style type="text/css">
+            .task-list-item-checkbox {
+                margin-right: 0.4em;
+                vertical-align: middle;
+            }
+            .katex img {
+                object-fit: fill;
+                padding: unset;
+                display: block;
+                position: absolute;
+                width: 100%;
+                height: inherit;
+            }
+            /* Media embeds. The theme is classless CSS, so these rules have to
+                 live here rather than in a class the theme knows nothing
+                 about. The frame reserves the aspect ratio so the iframe
+                 scales with the page instead of overflowing it. */
+            .embed {
+                margin: 1.5em 0;
+            }
+            .embed-frame {
+                position: relative;
+                aspect-ratio: 16 / 9;
+            }
+            .embed-frame iframe {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                border: 0;
+            }
+            .embed figcaption {
+                font-size: 0.8em;
+            }
+        </style>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // markdown-katex renders ```math blocks and $`inline`$ server
+                // side; $$display$$ and \(inline\) still need the browser.
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "\\(", right: "\\)", display: false}
+                    ]
+                });
+            });
+        </script>
+
+        <noscript>
+            <style>html{visibility: visible;opacity:1;}</style>
+        </noscript>
+    </head>
+    <body>
+        <h1 id="deployment">Deployment</h1>
+<p>Elanor ships with a GitHub Actions workflow that builds and deploys to GitHub
+Pages on every push to <code>main</code>. You can also deploy manually.</p>
+<h2 id="automatic-deploy-github-actions">Automatic deploy (GitHub Actions)</h2>
+<p>The workflow lives at <code>.github/workflows/deploy.yml</code> and does four things:</p>
+<ol>
+<li>Checks out the repository.</li>
+<li>Installs Python and the project's dependencies.</li>
+<li>Runs <code>python main.py</code> to generate the site.</li>
+<li>Pushes the <code>generated/</code> directory to the <code>gh-pages</code> branch.</li>
+</ol>
+<h3 id="setup">Setup</h3>
+<ol>
+<li>Go to your repo's <strong>Settings → Pages</strong>.</li>
+<li>Set the source to <strong>Deploy from a branch</strong>.</li>
+<li>Set the branch to <code>gh-pages</code> and the folder to <code>/ (root)</code>.</li>
+<li>Push a commit to <code>main</code> — the workflow runs and your site goes live.</li>
+</ol>
+<p>Your site will be available at:</p>
+<div class="codehilite"><pre><span></span><code>https://&lt;username&gt;.github.io/&lt;repo&gt;/
+</code></pre></div>
+
+<h3 id="the-workflow-file">The workflow file</h3>
+<div class="codehilite"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deploy to GitHub Pages</span>
+
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">deploy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v5</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.11&#39;</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip install -r requirements.txt ghp-import</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python main.py</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">GIT_AUTHOR_NAME</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github-actions[bot]</span>
+<span class="w">          </span><span class="nt">GIT_AUTHOR_EMAIL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">41898282+github-actions[bot]@users.noreply.github.com</span>
+<span class="w">          </span><span class="nt">GIT_COMMITTER_NAME</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github-actions[bot]</span>
+<span class="w">          </span><span class="nt">GIT_COMMITTER_EMAIL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">41898282+github-actions[bot]@users.noreply.github.com</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">git config --global user.name &quot;$GIT_AUTHOR_NAME&quot;</span>
+<span class="w">          </span><span class="no">git config --global user.email &quot;$GIT_AUTHOR_EMAIL&quot;</span>
+<span class="w">          </span><span class="no">ghp-import -n -f generated</span>
+<span class="w">          </span><span class="no">git push -f https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages</span>
+</code></pre></div>
+
+<p>Key details:</p>
+<ul>
+<li><strong><code>ghp-import -n</code></strong> adds a <code>.nojekyll</code> file so GitHub Pages serves the site
+  as-is, without running Jekyll.</li>
+<li><strong><code>-f</code></strong> force-pushes to <code>gh-pages</code> — the branch is always a clean snapshot
+  of <code>generated/</code>.</li>
+<li><strong><code>permissions: contents: write</code></strong> is required for the bot to push.</li>
+</ul>
+<h3 id="non-interactive-theme">Non-interactive theme</h3>
+<p>The workflow doesn't have a terminal, so if <code>config.json</code> doesn't exist yet,
+set the <code>ELANOR_THEME</code> environment variable in the workflow:</p>
+<div class="codehilite"><pre><span></span><code><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python main.py</span>
+<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">ELANOR_THEME</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</code></pre></div>
+
+<p>This auto-creates <code>config.json</code> with the selected theme and skips the
+interactive prompt.</p>
+<h2 id="manual-deploy">Manual deploy</h2>
+<p>If you prefer not to use CI:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 1. Build</span>
+python3<span class="w"> </span>main.py
+
+<span class="c1"># 2. Install ghp-import</span>
+pip<span class="w"> </span>install<span class="w"> </span>ghp-import
+
+<span class="c1"># 3. Push to gh-pages</span>
+ghp-import<span class="w"> </span>-n<span class="w"> </span>-f<span class="w"> </span>generated
+git<span class="w"> </span>push<span class="w"> </span>-f<span class="w"> </span>origin<span class="w"> </span>gh-pages
+</code></pre></div>
+
+<p>Or simply copy the contents of <code>generated/</code> to any static file host (Netlify,
+Cloudflare Pages, a VPS with nginx, etc.).</p>
+<h2 id="custom-domain">Custom domain</h2>
+<p>To use a custom domain with GitHub Pages:</p>
+<ol>
+<li>
+<p>Add a <code>CNAME</code> file to <code>content/</code> containing your domain:
+   <code>docs.example.com</code>
+   Elanor copies non-Markdown files as-is, so it will end up in <code>generated/</code>.</p>
+</li>
+<li>
+<p>Configure your DNS to point at GitHub Pages
+   (<a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site">GitHub's guide</a>).</p>
+</li>
+<li>
+<p>Update <code>site_url</code> in <code>config.json</code>:
+   <code>json
+   {
+     "site_url": "https://docs.example.com"
+   }</code></p>
+</li>
+</ol>
+<h2 id="next-steps">Next steps</h2>
+<ul>
+<li><a href="../architecture/">Architecture</a> — understand the build pipeline under the hood.</li>
+<li><a href="../configuration/">Configuration</a> — fine-tune your <code>config.json</code>.</li>
+</ul>
+    </body>
+</html>

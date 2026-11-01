@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="A live showcase demonstrating all Markdown extensions and features supported by Elanor.">
+        <meta name="keywords" content="demo, markdown, katex, wikilinks, syntax highlighting, tasks, embeds, tables">
+        <meta name="author" content="Elanor">
+        <link rel="canonical" href="https://syswraith.github.io/elanor/markdown-feature-showcase/">
+
+        <!-- Open Graph / Facebook / Discord -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Markdown Feature Showcase">
+        <meta property="og:description" content="A live showcase demonstrating all Markdown extensions and features supported by Elanor.">
+        <meta property="og:url" content="https://syswraith.github.io/elanor/markdown-feature-showcase/">
+        <meta property="og:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Markdown Feature Showcase">
+        <meta name="twitter:description" content="A live showcase demonstrating all Markdown extensions and features supported by Elanor.">
+        <meta name="twitter:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+
+        <title>Markdown Feature Showcase</title>
+
+        <!-- Hide until the theme is applied, then reveal. The noscript block
+             below is what keeps the page visible when JS is unavailable. -->
+        <style>html{visibility: hidden;opacity:0;}</style>
+        <link rel="stylesheet" href="../pygments.css" type="text/css">
+        <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css" media="print" onload="this.media='all'">
+        <link rel="icon" type="image/x-icon" href="../favicon.ico">
+        <script>
+            (function () {
+                function reveal() {
+                    var el = document.documentElement;
+                    if (!el || el.style.visibility === 'visible') return;
+                    el.style.visibility = 'visible';
+                    el.style.opacity = 1;
+                }
+                window.addEventListener('load', reveal);
+                // A hanging theme CDN must never leave the page blank forever.
+                window.setTimeout(reveal, 3000);
+            })();
+        </script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+        <!-- markdown-katex has insert_fonts_css disabled, so this rule has to
+             live here instead of in the generated stylesheet. -->
+        <style type="text/css">
+            .task-list-item-checkbox {
+                margin-right: 0.4em;
+                vertical-align: middle;
+            }
+            .katex img {
+                object-fit: fill;
+                padding: unset;
+                display: block;
+                position: absolute;
+                width: 100%;
+                height: inherit;
+            }
+            /* Media embeds. The theme is classless CSS, so these rules have to
+                 live here rather than in a class the theme knows nothing
+                 about. The frame reserves the aspect ratio so the iframe
+                 scales with the page instead of overflowing it. */
+            .embed {
+                margin: 1.5em 0;
+            }
+            .embed-frame {
+                position: relative;
+                aspect-ratio: 16 / 9;
+            }
+            .embed-frame iframe {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                border: 0;
+            }
+            .embed figcaption {
+                font-size: 0.8em;
+            }
+        </style>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // markdown-katex renders ```math blocks and $`inline`$ server
+                // side; $$display$$ and \(inline\) still need the browser.
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "\\(", right: "\\)", display: false}
+                    ]
+                });
+            });
+        </script>
+
+        <noscript>
+            <style>html{visibility: visible;opacity:1;}</style>
+        </noscript>
+    </head>
+    <body>
+        <h1 id="markdown-feature-showcase">Markdown Feature Showcase</h1>
+<p>This document demonstrates every Markdown feature and extension supported by Elanor — from syntax highlighting and mathematical typesetting to Obsidian-style wikilinks and responsive media embeds.</p>
+<div class="toc">
+<ul>
+<li><a href="#markdown-feature-showcase">Markdown Feature Showcase</a><ul>
+<li><a href="#typography-and-text-formatting">Typography and Text Formatting</a><ul>
+<li><a href="#blockquotes">Blockquotes</a></li>
+</ul>
+</li>
+<li><a href="#lists-and-task-lists">Lists and Task Lists</a><ul>
+<li><a href="#standard-lists">Standard Lists</a></li>
+<li><a href="#interactive-task-lists">Interactive Task Lists</a></li>
+</ul>
+</li>
+<li><a href="#code-blocks-and-syntax-highlighting">Code Blocks and Syntax Highlighting</a><ul>
+<li><a href="#python">Python</a></li>
+<li><a href="#rust">Rust</a></li>
+<li><a href="#shell">Shell</a></li>
+</ul>
+</li>
+<li><a href="#mathematics-katex">Mathematics (KaTeX)</a><ul>
+<li><a href="#inline-math">Inline Math</a></li>
+<li><a href="#display-math-equations">Display Math Equations</a></li>
+</ul>
+</li>
+<li><a href="#tables">Tables</a></li>
+<li><a href="#obsidian-style-wikilinks">Obsidian-Style Wikilinks</a></li>
+<li><a href="#responsive-media-embeds">Responsive Media Embeds</a></li>
+<li><a href="#navigation">Navigation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<hr />
+<h2 id="typography-and-text-formatting">Typography and Text Formatting</h2>
+<p>Elanor supports standard Markdown formatting, styled cleanly by your chosen classless CSS theme:</p>
+<ul>
+<li><strong>Bold text</strong> with <code>**double asterisks**</code> or <code>__double underscores__</code></li>
+<li><em>Italic text</em> with <code>*single asterisks*</code> or <code>_single underscores_</code></li>
+<li><strong><em>Bold and italic text</em></strong> with <code>***triple asterisks***</code></li>
+<li>~~Strikethrough~~ with <code>~~double tildes~~</code></li>
+<li><code>Inline code snippets</code> with <code>`backticks`</code></li>
+<li>Superscript and subscript where supported by standard HTML entities or math mode</li>
+</ul>
+<h3 id="blockquotes">Blockquotes</h3>
+<blockquote>
+<p>"All that is gold does not glitter,
+Not all those who wander are lost;
+The old that is strong does not wither,
+Deep roots are not reached by the frost."</p>
+<p>— <em>J.R.R. Tolkien, The Fellowship of the Ring</em></p>
+</blockquote>
+<p>Nested blockquotes are also fully supported:</p>
+<blockquote>
+<p>Multi-level blockquotes allow structuring commentaries or discussion threads:</p>
+<blockquote>
+<p>This is a nested blockquote highlighting a supplementary observation.</p>
+</blockquote>
+</blockquote>
+<hr />
+<h2 id="lists-and-task-lists">Lists and Task Lists</h2>
+<h3 id="standard-lists">Standard Lists</h3>
+<ol>
+<li>First ordered item</li>
+<li>Second ordered item</li>
+<li>Unordered sub-item A</li>
+<li>Unordered sub-item B<ol>
+<li>Nested ordered sub-point</li>
+<li>Another nested ordered sub-point</li>
+</ol>
+</li>
+<li>Third ordered item</li>
+</ol>
+<h3 id="interactive-task-lists">Interactive Task Lists</h3>
+<p>Elanor converts <code>- [ ]</code> and <code>- [x]</code> into styled HTML checkboxes with the <code>task-list-item-checkbox</code> class:</p>
+<ul>
+<li><input checked="checked" class="task-list-item-checkbox" disabled="disabled" type="checkbox" />Initialise git repository and virtual environment</li>
+<li><input checked="checked" class="task-list-item-checkbox" disabled="disabled" type="checkbox" />Install dependencies via <code>requirements.txt</code></li>
+<li><input checked="checked" class="task-list-item-checkbox" disabled="disabled" type="checkbox" />Configure classless CSS theme in <code>assets/config.json</code></li>
+<li><input checked="checked" class="task-list-item-checkbox" disabled="disabled" type="checkbox" />Author notes in <code>content/</code> with YAML frontmatter</li>
+<li><input class="task-list-item-checkbox" disabled="disabled" type="checkbox" />Deploy generated static site to GitHub Pages</li>
+</ul>
+<hr />
+<h2 id="code-blocks-and-syntax-highlighting">Code Blocks and Syntax Highlighting</h2>
+<p>Fenced code blocks are styled using <strong>Pygments</strong> with scoped <code>.codehilite</code> styles so they never conflict with your theme.</p>
+<h3 id="python">Python</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">elanor</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_link_index</span><span class="p">,</span> <span class="n">assign_page_dirs</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_catalog</span><span class="p">(</span><span class="n">content_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Scan content directory and compute clean URL slugs.&quot;&quot;&quot;</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">build_link_index</span><span class="p">(</span><span class="n">content_dir</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">assign_page_dirs</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;exclude_drafts&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">catalog</span> <span class="o">=</span> <span class="n">generate_catalog</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">out_dir</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">catalog</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> -&gt; /</span><span class="si">{</span><span class="n">out_dir</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="rust">Rust</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">collections</span><span class="p">::</span><span class="n">HashMap</span><span class="p">;</span>
+
+<span class="cp">#[derive(Debug)]</span>
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">Page</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">title</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">slug</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">published</span><span class="p">:</span><span class="w"> </span><span class="kt">bool</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">catalog</span><span class="p">:</span><span class="w"> </span><span class="nc">HashMap</span><span class="o">&lt;&amp;</span><span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">Page</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HashMap</span><span class="p">::</span><span class="n">new</span><span class="p">();</span>
+<span class="w">    </span><span class="n">catalog</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="s">&quot;demo&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Page</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">title</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;Markdown Showcase&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="n">slug</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;markdown-showcase&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="n">published</span><span class="p">:</span><span class="w"> </span><span class="nc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;Catalog: {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">catalog</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="shell">Shell</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Build your site</span>
+<span class="nb">source</span><span class="w"> </span>./venv/bin/activate
+python3<span class="w"> </span>main.py
+
+<span class="c1"># Preview locally</span>
+python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">8000</span><span class="w"> </span>--directory<span class="w"> </span>generated
+</code></pre></div>
+
+<hr />
+<h2 id="mathematics-katex">Mathematics (KaTeX)</h2>
+<p>Elanor renders math at <strong>build time</strong> using KaTeX CLI (<code>markdown_katex</code>), meaning zero client-side JavaScript overhead and full offline support.</p>
+<h3 id="inline-math">Inline Math</h3>
+<p>Einstein's mass–energy equivalence is given by $E = mc^2$.</p>
+<p>Euler's identity, frequently called the most beautiful theorem in mathematics:</p>
+<p>$$e^{i\pi} + 1 = 0$$</p>
+<p>Gaussian integral over the real line:</p>
+<p>$$\int_{-\infty}^{\infty} e^{-x^2} \, dx = \sqrt{\pi}$$</p>
+<h3 id="display-math-equations">Display Math Equations</h3>
+<p>Maxwell's equations in vacuum:</p>
+<p>$$\begin{aligned}
+\nabla \cdot \mathbf{E} &amp;= \frac{\rho}{\varepsilon_0} \
+\nabla \cdot \mathbf{B} &amp;= 0 \
+\nabla \times \mathbf{E} &amp;= -\frac{\partial \mathbf{B}}{\partial t} \
+\nabla \times \mathbf{B} &amp;= \mu_0 \mathbf{J} + \mu_0 \varepsilon_0 \frac{\partial \mathbf{E}}{\partial t}
+\end{aligned}$$</p>
+<p>A $3 \times 3$ matrix transformation:</p>
+<p>$$\mathbf{A} = \begin{pmatrix}
+a_{11} &amp; a_{12} &amp; a_{13} \
+a_{21} &amp; a_{22} &amp; a_{23} \
+a_{31} &amp; a_{32} &amp; a_{33}
+\end{pmatrix}$$</p>
+<hr />
+<h2 id="tables">Tables</h2>
+<p>Standard GitHub-Flavored Markdown pipe tables with left, center, and right text alignment:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: center;">Supported Syntax</th>
+<th style="text-align: left;">Processor / Extension</th>
+<th style="text-align: right;">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Wikilinks</td>
+<td style="text-align: center;"><code>[[Target]]</code></td>
+<td style="text-align: left;"><code>WikilinkProcessor</code></td>
+<td style="text-align: right;">Active</td>
+</tr>
+<tr>
+<td style="text-align: left;">Math Equations</td>
+<td style="text-align: center;"><code>$...<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">/</mi></mrow><annotation encoding="application/x-tex"> / </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">/</span></span></span></span>$...$$</code></td>
+<td style="text-align: left;"><code>markdown_katex</code></td>
+<td style="text-align: right;">Active</td>
+</tr>
+<tr>
+<td style="text-align: left;">Task Lists</td>
+<td style="text-align: center;"><code>- [x]</code> / <code>- [ ]</code></td>
+<td style="text-align: left;"><code>TaskProcessor</code></td>
+<td style="text-align: right;">Active</td>
+</tr>
+<tr>
+<td style="text-align: left;">Video Embeds</td>
+<td style="text-align: center;"><code>[embed](url)</code></td>
+<td style="text-align: left;"><code>EmbedProcessor</code></td>
+<td style="text-align: right;">Active</td>
+</tr>
+<tr>
+<td style="text-align: left;">Code Highlighting</td>
+<td style="text-align: center;"><code>```lang</code></td>
+<td style="text-align: left;"><code>codehilite</code> + Pygments</td>
+<td style="text-align: right;">Active</td>
+</tr>
+<tr>
+<td style="text-align: left;">Clean Slugs</td>
+<td style="text-align: center;"><code>slugify()</code></td>
+<td style="text-align: left;">Built-in</td>
+<td style="text-align: right;">Active</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="obsidian-style-wikilinks">Obsidian-Style Wikilinks</h2>
+<p>Elanor provides deep integration with Obsidian-style internal links:</p>
+<ul>
+<li><strong>Direct note link</strong>: <a href="../getting-started/">Getting Started</a></li>
+<li><strong>Custom display text</strong>: <a href="../writing-content/">Comprehensive Authoring Guide</a></li>
+<li><strong>Deep link with heading anchor</strong>: <a href="../architecture/#markdown-extensions">Architecture</a></li>
+<li><strong>In-page section jump</strong>: <a href="#typography-and-text-formatting">Typography and Text Formatting</a></li>
+<li><strong>Frontmatter alias resolution</strong>: <a href="./">feature-demo</a> (points back to this note via its <code>alias</code>)</li>
+<li><strong>File extension flexibility</strong>: <a href="../deployment/">Deployment</a> or <a href="../deployment/">Deployment</a></li>
+</ul>
+<hr />
+<h2 id="responsive-media-embeds">Responsive Media Embeds</h2>
+<p>To embed a video, place a Markdown link labelled <code>embed</code> on its own line. Elanor extracts the video ID and renders a responsive, privacy-enhanced iframe (<code>youtube-nocookie.com</code>) wrapped in semantic <code>&lt;figure&gt;</code> and <code>&lt;figcaption&gt;</code> elements:</p>
+<figure class="embed">
+<div class="embed-frame">
+<iframe allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ" title="YouTube video player"></iframe>
+</div>
+<figcaption><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" rel="noopener noreferrer" target="_blank">Watch on YouTube</a></figcaption>
+</figure>
+<hr />
+<h2 id="navigation">Navigation</h2>
+<ul>
+<li>Return to [[Elanor|Home Page]]</li>
+<li>Read the <a href="../getting-started/">Getting Started</a> guide</li>
+<li>Consult <a href="../writing-content/">Writing Content</a> for authoring rules</li>
+<li>Review <a href="../configuration/">Configuration</a> for theme options</li>
+<li>Inspect the underlying <a href="../architecture/">Architecture</a></li>
+</ul>
+    </body>
+</html>

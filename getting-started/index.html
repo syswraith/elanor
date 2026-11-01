@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Install Elanor, run your first build, and understand the project layout.">
+        <meta name="keywords" content="installation, setup, quickstart, project structure">
+        <meta name="author" content="">
+        <link rel="canonical" href="https://syswraith.github.io/elanor/getting-started/">
+
+        <!-- Open Graph / Facebook / Discord -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Getting Started">
+        <meta property="og:description" content="Install Elanor, run your first build, and understand the project layout.">
+        <meta property="og:url" content="https://syswraith.github.io/elanor/getting-started/">
+        <meta property="og:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Getting Started">
+        <meta name="twitter:description" content="Install Elanor, run your first build, and understand the project layout.">
+        <meta name="twitter:image" content="https://github.com/syswraith/elanor/blob/main/assets/icon.png?raw=true">
+
+        <title>Getting Started</title>
+
+        <!-- Hide until the theme is applied, then reveal. The noscript block
+             below is what keeps the page visible when JS is unavailable. -->
+        <style>html{visibility: hidden;opacity:0;}</style>
+        <link rel="stylesheet" href="../pygments.css" type="text/css">
+        <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css" media="print" onload="this.media='all'">
+        <link rel="icon" type="image/x-icon" href="../favicon.ico">
+        <script>
+            (function () {
+                function reveal() {
+                    var el = document.documentElement;
+                    if (!el || el.style.visibility === 'visible') return;
+                    el.style.visibility = 'visible';
+                    el.style.opacity = 1;
+                }
+                window.addEventListener('load', reveal);
+                // A hanging theme CDN must never leave the page blank forever.
+                window.setTimeout(reveal, 3000);
+            })();
+        </script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+        <!-- markdown-katex has insert_fonts_css disabled, so this rule has to
+             live here instead of in the generated stylesheet. -->
+        <style type="text/css">
+            .task-list-item-checkbox {
+                margin-right: 0.4em;
+                vertical-align: middle;
+            }
+            .katex img {
+                object-fit: fill;
+                padding: unset;
+                display: block;
+                position: absolute;
+                width: 100%;
+                height: inherit;
+            }
+            /* Media embeds. The theme is classless CSS, so these rules have to
+                 live here rather than in a class the theme knows nothing
+                 about. The frame reserves the aspect ratio so the iframe
+                 scales with the page instead of overflowing it. */
+            .embed {
+                margin: 1.5em 0;
+            }
+            .embed-frame {
+                position: relative;
+                aspect-ratio: 16 / 9;
+            }
+            .embed-frame iframe {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                border: 0;
+            }
+            .embed figcaption {
+                font-size: 0.8em;
+            }
+        </style>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // markdown-katex renders ```math blocks and $`inline`$ server
+                // side; $$display$$ and \(inline\) still need the browser.
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "\\(", right: "\\)", display: false}
+                    ]
+                });
+            });
+        </script>
+
+        <noscript>
+            <style>html{visibility: visible;opacity:1;}</style>
+        </noscript>
+    </head>
+    <body>
+        <h1 id="getting-started">Getting Started</h1>
+<p>This guide walks you through installing Elanor, building your first site, and
+understanding the files that make it tick.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<table>
+<thead>
+<tr>
+<th>Dependency</th>
+<th>Version</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python</td>
+<td>3.10+</td>
+<td>Elanor is written in Python.</td>
+</tr>
+<tr>
+<td>Node.js</td>
+<td>Any LTS</td>
+<td><code>markdown-katex</code> calls the KaTeX CLI at build.</td>
+</tr>
+<tr>
+<td>pip / uv</td>
+<td>Latest</td>
+<td>To install Python packages.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="installation">Installation</h2>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/syswraith/elanor.git
+<span class="nb">cd</span><span class="w"> </span>elanor
+
+<span class="c1"># Option A: pip</span>
+python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>./venv/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+
+<span class="c1"># Option B: uv (faster)</span>
+uv<span class="w"> </span>venv<span class="w"> </span>venv<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>./venv/bin/activate
+uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</code></pre></div>
+
+<h2 id="your-first-build">Your first build</h2>
+<p>Create a <code>content/</code> directory next to <code>main.py</code> and add a Markdown file:</p>
+<div class="codehilite"><pre><span></span><code>elanor/
+├── content/
+│   └── hello.md        ← your first note
+├── assets/
+│   ├── config.json
+│   ├── template.html
+│   └── themes.json
+├── main.py
+└── requirements.txt
+</code></pre></div>
+
+<p>Write something in <code>content/hello.md</code>:</p>
+<div class="codehilite"><pre><span></span><code>---
+<span class="gu">title: Hello World</span>
+<span class="gu">---</span>
+
+<span class="gh"># Hello World</span>
+
+This is my first Elanor page!
+</code></pre></div>
+
+<p>Then build:</p>
+<div class="codehilite"><pre><span></span><code>python3<span class="w"> </span>main.py
+</code></pre></div>
+
+<p>If <code>assets/config.json</code> doesn't exist yet, Elanor will prompt you to choose a
+theme interactively. You can also set <code>ELANOR_THEME=10</code> (sakura) to skip the
+prompt in CI.</p>
+<p>The output lands in <code>generated/</code>:</p>
+<div class="codehilite"><pre><span></span><code>generated/
+├── hello-world/
+│   └── index.html
+├── index.html
+├── pygments.css
+└── favicon.ico
+</code></pre></div>
+
+<p>Every note becomes a directory with an <code>index.html</code> so URLs look clean:
+<code>/hello-world/</code> instead of <code>/hello-world.html</code>.</p>
+<h2 id="project-layout">Project layout</h2>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>main.py</code></td>
+<td>The entire generator — one file, no packages.</td>
+</tr>
+<tr>
+<td><code>content/</code></td>
+<td>Your Markdown notes and assets (images, PDFs, etc.).</td>
+</tr>
+<tr>
+<td><code>generated/</code></td>
+<td>Build output. Deployed to <code>gh-pages</code>.</td>
+</tr>
+<tr>
+<td><code>assets/config.json</code></td>
+<td>Theme URL, site URL, Open Graph image.</td>
+</tr>
+<tr>
+<td><code>assets/template.html</code></td>
+<td>Jinja2 HTML shell that wraps every page.</td>
+</tr>
+<tr>
+<td><code>assets/themes.json</code></td>
+<td>Map of theme IDs to names and CDN URLs.</td>
+</tr>
+<tr>
+<td><code>assets/config.py</code></td>
+<td>Interactive config wizard (runs when config is missing).</td>
+</tr>
+<tr>
+<td><code>.elanor-manifest</code></td>
+<td>Tracks generated files for incremental cleanup.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="serving-locally">Serving locally</h2>
+<p>Python's built-in HTTP server is the easiest way to preview:</p>
+<div class="codehilite"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span>-d<span class="w"> </span>generated
+</code></pre></div>
+
+<p>Then open <a href="http://localhost:8000">http://localhost:8000</a>.</p>
+<h2 id="next-steps">Next steps</h2>
+<ul>
+<li><a href="../writing-content/">Writing Content</a> — learn the Markdown extensions Elanor supports.</li>
+<li><a href="../configuration/">Configuration</a> — customise themes, metadata, and Open Graph tags.</li>
+</ul>
+    </body>
+</html>
