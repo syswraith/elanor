@@ -1,22 +1,36 @@
 ---
 title: Architecture
-description: How Elanor's single-file build pipeline turns a folder of Markdown into a static site.
-keywords: architecture, build pipeline, internals, link index, wikilinks, markdown extensions
+description: How Elanor's modular build pipeline turns a folder of Markdown into a static site.
+keywords: architecture, build pipeline, internals, link index, wikilinks, markdown extensions, modular design
 ---
 
 # Architecture
 
-Elanor is a single-file static site generator — everything lives in `main.py`.
-This page explains how the build pipeline works.
+Elanor is organized into a clean, modular Python package (`elanor`) with `main.py` serving as the top-level CLI entry point.
+This page explains how the codebase is structured and how the build pipeline works.
+
+## Codebase structure
+
+The implementation is split across dedicated modules with clear responsibilities:
+
+- **`elanor/constants.py`** — path configurations, regex patterns, and default settings.
+- **`elanor/utils.py`** — slug generation, key normalisation, and relative URL calculation.
+- **`elanor/frontmatter.py`** — frontmatter parsing, metadata extraction, draft checking, and summary generation.
+- **`elanor/fs.py`** — source file iteration, asset copying, folder title derivation, and manifest/pruning operations.
+- **`elanor/index.py`** — `LinkIndex` model, directory assignment, and wikilink resolution.
+- **`elanor/processors.py`** — Python-Markdown tree and inline processors (wikilinks, tasks, embeds, asset paths).
+- **`elanor/builder.py`** — core site build loop, folder index generator, and reporting.
+- **`elanor/cli.py`** — configuration loader and command-line execution entry point.
+- **`main.py`** — top-level executable entry point and backwards-compatible namespace re-export.
 
 ## Build pipeline overview
 
 ```
-content/          main.py            generated/
-  *.md    ──────►  build()  ──────►   */index.html
-  images/                             images/
-  ...                                 pygments.css
-                                      favicon.ico
+content/          elanor.builder       generated/
+  *.md    ──────►    build()   ──────►   */index.html
+  images/                                images/
+  ...                                    pygments.css
+                                         favicon.ico
 ```
 
 The `main()` function runs these steps in order:

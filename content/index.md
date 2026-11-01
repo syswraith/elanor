@@ -61,6 +61,7 @@ browser or serve it with `python3 -m http.server -d generated`.
 
 - [[Getting Started]] — installation, first build, and project layout.
 - [[Writing Content]] — Markdown syntax, frontmatter, wikilinks, and embeds.
+- [[Markdown Demo|Markdown Feature Showcase]] — live demonstration of all supported Markdown features and extensions.
 - [[Configuration]] — themes, site URL, Open Graph, and `config.json`.
 - [[Deployment]] — GitHub Pages workflow and manual deploy.
 - [[Architecture]] — how Elanor's build pipeline works under the hood.
